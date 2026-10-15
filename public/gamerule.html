@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゲームルール・操作説明 / Game Rules & Controls - TankPath</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            background: #fafafa;
+        }
+        header {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 24px 32px;
+            text-align: center;
+            position: relative;
+        }
+        header h1 { font-size: 1.6rem; letter-spacing: 0.05em; }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 7px 14px;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.28);
+        }
+
+        .toc {
+            background: #eef2ff;
+            border-bottom: 1px solid #c5cef5;
+            padding: 14px 32px;
+            font-size: 0.9rem;
+        }
+        .toc a { color: #1a1a2e; text-decoration: none; margin-right: 18px; }
+        .toc a:hover { text-decoration: underline; }
+
+        .columns { display: flex; }
+        .col { flex: 1; padding: 40px 36px; }
+        .col-ja { background: #fff; border-right: 1px solid #e0e0e0; }
+        .col-en { background: #f7f9fb; }
+
+        .col h2 {
+            font-size: 1.25rem;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1a1a2e;
+            color: #1a1a2e;
+        }
+        .col h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 32px 0 10px;
+            padding-left: 10px;
+            border-left: 4px solid #1a1a2e;
+        }
+        .col h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 20px 0 6px;
+            color: #333;
+        }
+        p { color: #444; margin-bottom: 8px; }
+        ul { padding-left: 1.4em; color: #444; }
+        ul li { margin-bottom: 4px; }
+
+        /* Keyboard */
+        .keyboard {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: #2a2a3e;
+            padding: 14px 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .key-row { display: flex; gap: 4px; }
+        .key {
+            width: 44px; height: 44px;
+            background: #e8e8f0;
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; color: #1a1a2e;
+            box-shadow: 0 3px 0 #a0a0b8;
+            user-select: none;
+            position: relative;
+        }
+        .key-hint {
+            position: absolute;
+            bottom: -20px;
+            font-size: 0.62rem;
+            color: #ccc;
+            white-space: nowrap;
+            font-weight: 400;
+        }
+        .key-spacer { width: 44px; height: 44px; visibility: hidden; }
+
+        /* D-Pad */
+        .dpad {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: #2a2a3e;
+            padding: 14px 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .dpad-key {
+            width: 40px; height: 40px;
+            background: #e8e8f0;
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: #1a1a2e;
+            box-shadow: 0 3px 0 #a0a0b8;
+        }
+
+        /* Mouse */
+        .mouse-wrap { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; margin: 20px 0 24px; }
+        .mouse { display: flex; flex-direction: column; align-items: center; }
+        .mouse-body {
+            width: 80px;
+            background: #d0d0e0;
+            border-radius: 40px 40px 30px 30px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            border: 2px solid #a0a0b8;
+        }
+        .mouse-buttons {
+            display: flex;
+            height: 56px;
+            border-bottom: 2px solid #a0a0b8;
+        }
+        .mouse-btn {
+            flex: 1;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.62rem; font-weight: 700; color: #fff;
+        }
+        .mouse-btn.left  { background: #e05555; border-right: 1px solid #a0a0b8; border-radius: 40px 0 0 0; }
+        .mouse-btn.right { background: #5599dd; border-radius: 0 40px 0 0; }
+        .mouse-btn.inactive { background: #b0b0c8; }
+        .mouse-btn.inactive:first-child { border-radius: 40px 0 0 0; }
+        .mouse-btn.inactive:last-child  { border-radius: 0 40px 0 0; }
+        .mouse-scroll {
+            height: 28px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .scroll-wheel { width: 14px; height: 20px; background: #888; border-radius: 7px; }
+        .mouse-bottom { height: 36px; background: #c0c0d0; border-radius: 0 0 30px 30px; }
+        .mouse-caption {
+            margin-top: 6px;
+            font-size: 0.78rem;
+            color: #555;
+            text-align: center;
+            max-width: 90px;
+        }
+        .mouse-caption strong { display: block; font-size: 0.72rem; }
+
+        .tap-icon { font-size: 2.8rem; line-height: 1; display: block; text-align: center; }
+        .diagram-label { font-size: 0.82rem; color: #888; text-align: center; margin-top: 6px; }
+        .diagram-row { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; margin: 16px 0; }
+        .diagram-item { display: flex; flex-direction: column; align-items: center; }
+
+        /* Tables */
+        .item-table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 0.9rem; }
+        .item-table th { background: #1a1a2e; color: #fff; padding: 8px 10px; text-align: left; }
+        .item-table td { padding: 8px 10px; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+        .item-table tr:nth-child(even) td { background: #f0f4f8; }
+
+        .dot {
+            display: inline-block;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .dot-red    { background: #e05555; box-shadow: 0 0 6px #e05555; }
+        .dot-green  { background: #44bb66; box-shadow: 0 0 6px #44bb66; }
+        .dot-yellow { background: #ddb833; box-shadow: 0 0 6px #ddb833; }
+        .dot-blue   { background: #4488ee; box-shadow: 0 0 6px #4488ee; }
+
+        .hearts { font-size: 1.3rem; letter-spacing: 2px; }
+
+        .progress-demo { background: #e0e0e8; border-radius: 8px; height: 22px; margin: 10px 0 4px; overflow: hidden; }
+        .progress-fill { width: 30%; height: 100%; background: linear-gradient(90deg, #1a1a2e, #4455aa); border-radius: 8px; }
+        .progress-text { font-size: 0.8rem; color: #666; margin-bottom: 16px; }
+
+        .mode-card { border: 1.5px solid #c5cef5; border-radius: 10px; padding: 14px 16px; margin: 12px 0; background: #fff; }
+        .mode-card h4 { margin-top: 0; color: #1a1a2e; font-size: 1rem; }
+        .mode-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700; margin-bottom: 6px; }
+        .badge-co   { background: #d4edda; color: #155724; }
+        .badge-race { background: #fff3cd; color: #856404; }
+        .badge-pvp  { background: #f8d7da; color: #721c24; }
+
+        footer { text-align: center; padding: 20px; font-size: 0.85rem; color: #888; border-top: 1px solid #e0e0e0; background: #fff; }
+
+        @media (max-width: 900px) {
+            .columns { flex-direction: column; }
+            .col-ja { border-right: none; border-bottom: 2px solid #1a1a2e; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="../index.html" class="back-btn">← ホーム / Home</a>
+    <h1>ゲームルール・操作説明 &nbsp;/&nbsp; Game Rules &amp; Controls</h1>
+</header>
+
+<div class="toc">
+    <a href="#ctrl-ja">▼ 操作説明</a>
+    <a href="#solo-ja">▼ ソロミッション</a>
+    <a href="#bullets-ja">▼ 弾の種類</a>
+    <a href="#mines-ja">▼ 地雷の種類</a>
+    <a href="#team-ja">▼ チームミッション</a>
+</div>
+
+<div class="columns">
+
+<!-- ===== 日本語 ===== -->
+<div class="col col-ja">
+
+    <h2 id="ctrl-ja">操作説明</h2>
+    <p>TankPath はマウスとキーボード、またはスマートフォンのタップ操作でプレイできます。それぞれの操作をひとつずつ説明します。</p>
+
+    <h3>① タンクを動かす</h3>
+    <p>キーボードの <strong>W・A・S・D</strong> キーを押してタンクを移動させます。スマートフォンでは画面に表示される <strong>十字ボタン（移動ボタン）</strong> をタップしてください。押している方向にタンクがすすみます。</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="keyboard">
+                <div class="key-row">
+                    <div class="key-spacer"></div>
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">W<span class="key-hint">前へ</span></div>
+                    <div class="key-spacer"></div>
+                </div>
+                <div class="key-row">
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">A<span class="key-hint">左へ</span></div>
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">S<span class="key-hint">後ろへ</span></div>
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">D<span class="key-hint">右へ</span></div>
+                </div>
+            </div>
+            <div class="diagram-label" style="margin-top:26px;">キーボード（WASD）</div>
+        </div>
+        <div class="diagram-item">
+            <div class="dpad">
+                <div class="key-row"><div class="dpad-key">▲</div></div>
+                <div class="key-row">
+                    <div class="dpad-key">◀</div>
+                    <div class="dpad-key">▼</div>
+                    <div class="dpad-key">▶</div>
+                </div>
+            </div>
+            <div class="diagram-label">十字ボタン（スマホ）</div>
+        </div>
+    </div>
+
+    <h3>② 砲台を向ける（ターゲティング）</h3>
+    <p>マウスのカーソルを動かすと、タンクの砲台がその方向を自動的に向きます。スマートフォンでは攻撃したい方向へ <strong>ドラッグまたはタップ</strong> してください。砲台が動いても、タンク本体は動きません。</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="mouse">
+                <div class="mouse-body">
+                    <div class="mouse-buttons">
+                        <div class="mouse-btn inactive">LEFT</div>
+                        <div class="mouse-btn inactive">RIGHT</div>
+                    </div>
+                    <div class="mouse-scroll"><div class="scroll-wheel"></div></div>
+                    <div class="mouse-bottom"></div>
+                </div>
+            </div>
+            <div class="mouse-caption">マウスを動かす<strong>= 砲台が向く</strong></div>
+        </div>
+        <div class="diagram-item">
+            <span class="tap-icon">👆</span>
+            <div class="diagram-label">スマホ：タップ／ドラッグ</div>
+        </div>
+    </div>
+
+    <h3>③ 弾を発射する</h3>
+    <p>照準が合ったら、マウスの <strong>左ボタン</strong> をクリックして弾を発射します。スマートフォンでは攻撃したい方向を <strong>タップ</strong> するだけでOKです。弾は一定時間たつか、壁などに当たりすぎると消えます。</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="mouse">
+                <div class="mouse-body">
+                    <div class="mouse-buttons">
+                        <div class="mouse-btn left">LEFT</div>
+                        <div class="mouse-btn inactive">RIGHT</div>
+                    </div>
+                    <div class="mouse-scroll"><div class="scroll-wheel"></div></div>
+                    <div class="mouse-bottom"></div>
+                </div>
+            </div>
+            <div class="mouse-caption"><strong>左クリック</strong>で発射</div>
+        </div>
+        <div class="diagram-item">
+            <span class="tap-icon">👆</span>
+            <div class="diagram-label">スマホ：タップで発射</div>
+        </div>
+    </div>
+
+    <h3>④ 地雷を置く</h3>
+    <p>マウスの <strong>右ボタン</strong> をクリックすると、タンクの足もとに地雷を置きます。スマートフォンでは画面の <strong>地雷ボタン（X ボタン）</strong> をタップしてください。地雷は自分のタンクには反応しないので、安全に設置できます。</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="mouse">
+                <div class="mouse-body">
+                    <div class="mouse-buttons">
+                        <div class="mouse-btn inactive">LEFT</div>
+                        <div class="mouse-btn right">RIGHT</div>
+                    </div>
+                    <div class="mouse-scroll"><div class="scroll-wheel"></div></div>
+                    <div class="mouse-bottom"></div>
+                </div>
+            </div>
+            <div class="mouse-caption"><strong>右クリック</strong>で設置</div>
+        </div>
+        <div class="diagram-item">
+            <div class="keyboard">
+                <div class="key-row">
+                    <div class="key" style="background:#f0d0ff;box-shadow:0 3px 0 #9a50cc;width:56px;font-size:0.85rem;">X / 💣</div>
+                </div>
+            </div>
+            <div class="diagram-label">スマホ：地雷ボタン</div>
+        </div>
+    </div>
+
+    <!-- ===== ゲームルール ===== -->
+    <h2 style="margin-top:48px;">ゲームルール</h2>
+
+    <h3 id="solo-ja">🎮 ソロミッション</h3>
+    <p>一人でステージをクリアしていくメインのゲームモードです。ステージは全部で <strong>100ステージ</strong> あります。最初から最後まで一人でクリアを目指しましょう！</p>
+
+    <h4>勝利・敗北の条件</h4>
+    <ul>
+        <li>🏆 <strong>勝利</strong>：そのステージに出てくる <strong>敵タンクをすべて倒す</strong> とステージクリアです。</li>
+        <li>💥 <strong>敗北</strong>：自分のタンクが <strong>破壊されてしまう</strong> と負けになります。</li>
+    </ul>
+
+    <h4>タンクが壊れる条件</h4>
+    <ul>
+        <li>敵の <strong>弾に当たった</strong> とき</li>
+        <li><strong>地雷の爆発</strong> に巻き込まれたとき</li>
+    </ul>
+    <p>弾同士がぶつかると互いの耐久値を削り合います（詳しくは下の「弾の種類」を読んでね）。</p>
+
+    <h4>挑戦回数（ライフ）について</h4>
+    <p>最初は <strong>5回</strong> まで挑戦できます。ハートで表すとこんなイメージです：</p>
+    <div class="hearts">❤️❤️❤️❤️❤️</div>
+    <ul style="margin-top:10px;">
+        <li>負けるたびに <strong>1回減ります</strong> → ❤️ が1つ消えます。</li>
+        <li><strong>5の倍数のステージ</strong>（ステージ5・10・15・20…）をクリアするたびに <strong>1回増えます</strong> → ❤️ が1つもらえます。</li>
+        <li>挑戦回数が0になると、最初からやりなおしになります。</li>
+    </ul>
+    <div class="progress-demo" style="margin-top:12px;"><div class="progress-fill"></div></div>
+    <div class="progress-text">例：ステージ30 ／ 100 を攻略中のようす</div>
+
+    <h3 id="bullets-ja">💥 弾の種類（全4種類）</h3>
+    <p>弾にはそれぞれ <strong>耐久値</strong> があります。弾同士がぶつかると、それぞれの耐久値が相手の耐久値の分だけ減り、0になった弾は消えてしまいます。耐久値が高い弾ほど相手の弾を貫きやすくなります。</p>
+    <table class="item-table">
+        <tr><th>弾の名前</th><th>特徴</th><th>耐久値</th></tr>
+        <tr>
+            <td><span class="dot dot-red"></span><strong>通常弾</strong></td>
+            <td>赤いビーム。壁に当たると <strong>1回だけ</strong> 反射します。いちばん基本的な弾です。</td>
+            <td style="text-align:center;font-weight:700;">1</td>
+        </tr>
+        <tr>
+            <td><span class="dot dot-green"></span><strong>強化弾</strong></td>
+            <td>緑のビーム。壁に当たると <strong>何度でも</strong> 反射し続けます。通常弾よりも少し速いです。</td>
+            <td style="text-align:center;font-weight:700;">1</td>
+        </tr>
+        <tr>
+            <td><span class="dot dot-yellow"></span><strong>分裂弾</strong></td>
+            <td>黄色いビーム。壁に当たって反射したあと、<strong>複数の弾に分裂</strong> します。速度はゆっくりです。</td>
+            <td style="text-align:center;font-weight:700;">2</td>
+        </tr>
+        <tr>
+            <td><span class="dot dot-blue"></span><strong>徹甲弾</strong></td>
+            <td>青いビーム。特定の壁を <strong>貫き通します</strong>。反射はしません。速度は速め。タンクの真正面で分裂するタイプも存在します。</td>
+            <td style="text-align:center;font-weight:700;">4</td>
+        </tr>
+    </table>
+    <p style="font-size:0.88rem;color:#666;background:#f5f5f5;padding:8px 12px;border-radius:6px;">
+        💡 例：耐久値1の通常弾と耐久値4の徹甲弾がぶつかると
+        → 通常弾は消え（1−1＝0）、徹甲弾は耐久値3で生き残ります（4−1＝3）。
+    </p>
+
+    <h3 id="mines-ja">💣 地雷の種類（全2種類）</h3>
+    <table class="item-table">
+        <tr><th>地雷の名前</th><th>爆発する条件</th></tr>
+        <tr>
+            <td><strong>広域地雷</strong></td>
+            <td>近くに <strong>タンクまたは弾</strong> が来ると反応して爆発します。遠くから弾を当てることでも起爆できるため、安全な位置から爆発させることも可能です。</td>
+        </tr>
+        <tr>
+            <td><strong>選択地雷</strong></td>
+            <td>近くに <strong>タンク</strong> が来たときだけ反応します。弾では爆発しません。敵タンクが通りそうな道に仕掛けておくと効果的です。</td>
+        </tr>
+    </table>
+
+    <h3 id="team-ja">👥 チームミッション（全3モード）</h3>
+    <p>複数のプレイヤーと一緒に遊べるモードです。仲間と力を合わせるもよし、ライバルとして競い合うもよし！3つのモードを楽しみましょう。</p>
+
+    <div class="mode-card">
+        <span class="mode-badge badge-co">協力プレイ</span>
+        <h4>① チームモード</h4>
+        <p>ソロミッションのステージを仲間と <strong>協力して</strong> 攻略するモードです。チーム全員のタンクが全滅すると、挑戦回数が1回減ります。会話や連携をうまく使い、みんなで敵を全滅させましょう！</p>
+    </div>
+
+    <div class="mode-card">
+        <span class="mode-badge badge-race">スコア競争</span>
+        <h4>② レースモード</h4>
+        <p>ステージを選び、そのステージで <strong>いちばん多くの敵タンクを倒したプレイヤー</strong> の勝ちになるモードです。タンクは自由に選べます。スピードと的確な判断が勝負のカギです。</p>
+    </div>
+
+    <div class="mode-card">
+        <span class="mode-badge badge-pvp">プレイヤー対戦</span>
+        <h4>③ バトルモード</h4>
+        <p>敵のAIはいません。プレイヤーだけが戦うモードです。 <strong>最後の1人</strong> になったプレイヤーの勝ちです。タンクは自由に選べます。仲間をいかに出し抜き、生き残るかが勝負です。</p>
+    </div>
+
+</div><!-- col-ja -->
+
+<!-- ===== English ===== -->
+<div class="col col-en">
+
+    <h2>Controls</h2>
+    <p>TankPath can be played with a mouse and keyboard, or by tapping on a smartphone. Here is a step-by-step guide for each control.</p>
+
+    <h3>① Moving Your Tank</h3>
+    <p>Press the <strong>W, A, S, D</strong> keys to move your tank. On a smartphone, tap the <strong>on-screen directional buttons (D-Pad)</strong>. Your tank will move in the direction you press.</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="keyboard">
+                <div class="key-row">
+                    <div class="key-spacer"></div>
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">W<span class="key-hint">Forward</span></div>
+                    <div class="key-spacer"></div>
+                </div>
+                <div class="key-row">
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">A<span class="key-hint">Left</span></div>
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">S<span class="key-hint">Back</span></div>
+                    <div class="key" style="background:#ffe0b2;box-shadow:0 3px 0 #c97a30;">D<span class="key-hint">Right</span></div>
+                </div>
+            </div>
+            <div class="diagram-label" style="margin-top:26px;">Keyboard (WASD)</div>
+        </div>
+        <div class="diagram-item">
+            <div class="dpad">
+                <div class="key-row"><div class="dpad-key">▲</div></div>
+                <div class="key-row">
+                    <div class="dpad-key">◀</div>
+                    <div class="dpad-key">▼</div>
+                    <div class="dpad-key">▶</div>
+                </div>
+            </div>
+            <div class="diagram-label">D-Pad (Smartphone)</div>
+        </div>
+    </div>
+
+    <h3>② Aiming (Targeting)</h3>
+    <p>Move your mouse cursor to aim your tank's turret in any direction. On a smartphone, <strong>drag or tap</strong> the direction you want to aim. Moving the turret does not move the tank itself.</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="mouse">
+                <div class="mouse-body">
+                    <div class="mouse-buttons">
+                        <div class="mouse-btn inactive">LEFT</div>
+                        <div class="mouse-btn inactive">RIGHT</div>
+                    </div>
+                    <div class="mouse-scroll"><div class="scroll-wheel"></div></div>
+                    <div class="mouse-bottom"></div>
+                </div>
+            </div>
+            <div class="mouse-caption">Move mouse<strong>= turret follows</strong></div>
+        </div>
+        <div class="diagram-item">
+            <span class="tap-icon">👆</span>
+            <div class="diagram-label">Smartphone: tap / drag</div>
+        </div>
+    </div>
+
+    <h3>③ Firing a Shell</h3>
+    <p>Once you've aimed, click the <strong>left mouse button</strong> to fire a shell. On a smartphone, simply <strong>tap</strong> the direction you want to shoot. Shells disappear after a set time or after hitting things too many times.</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="mouse">
+                <div class="mouse-body">
+                    <div class="mouse-buttons">
+                        <div class="mouse-btn left">LEFT</div>
+                        <div class="mouse-btn inactive">RIGHT</div>
+                    </div>
+                    <div class="mouse-scroll"><div class="scroll-wheel"></div></div>
+                    <div class="mouse-bottom"></div>
+                </div>
+            </div>
+            <div class="mouse-caption"><strong>Left click</strong> to fire</div>
+        </div>
+        <div class="diagram-item">
+            <span class="tap-icon">👆</span>
+            <div class="diagram-label">Smartphone: tap to fire</div>
+        </div>
+    </div>
+
+    <h3>④ Placing a Mine</h3>
+    <p>Click the <strong>right mouse button</strong> to place a mine directly under your tank. On a smartphone, tap the <strong>mine button (X button)</strong> on screen. Mines will never react to your own tank, so you can place them safely anytime.</p>
+    <div class="diagram-row">
+        <div class="diagram-item">
+            <div class="mouse">
+                <div class="mouse-body">
+                    <div class="mouse-buttons">
+                        <div class="mouse-btn inactive">LEFT</div>
+                        <div class="mouse-btn right">RIGHT</div>
+                    </div>
+                    <div class="mouse-scroll"><div class="scroll-wheel"></div></div>
+                    <div class="mouse-bottom"></div>
+                </div>
+            </div>
+            <div class="mouse-caption"><strong>Right click</strong> to place</div>
+        </div>
+        <div class="diagram-item">
+            <div class="keyboard">
+                <div class="key-row">
+                    <div class="key" style="background:#f0d0ff;box-shadow:0 3px 0 #9a50cc;width:56px;font-size:0.85rem;">X / 💣</div>
+                </div>
+            </div>
+            <div class="diagram-label">Smartphone: mine button</div>
+        </div>
+    </div>
+
+    <!-- ===== Game Rules ===== -->
+    <h2 style="margin-top:48px;">Game Rules</h2>
+
+    <h3>🎮 Solo Mission</h3>
+    <p>The main single-player campaign. There are <strong>100 stages</strong> in total. Take on each stage one by one and try to reach the end!</p>
+
+    <h4>Victory &amp; Defeat</h4>
+    <ul>
+        <li>🏆 <strong>Victory</strong>: Destroy <strong>all enemy tanks</strong> on the stage to clear it.</li>
+        <li>💥 <strong>Defeat</strong>: Your tank is <strong>destroyed</strong> and you lose the round.</li>
+    </ul>
+
+    <h4>When is a tank destroyed?</h4>
+    <ul>
+        <li>Hit by an enemy <strong>shell</strong></li>
+        <li>Caught in the <strong>blast radius of a mine</strong></li>
+    </ul>
+    <p>Shells can cancel each other out when they collide (see Durability in the Shell Types section below).</p>
+
+    <h4>Try Count (Lives)</h4>
+    <p>You start with <strong>5 tries</strong>. Think of them as hearts:</p>
+    <div class="hearts">❤️❤️❤️❤️❤️</div>
+    <ul style="margin-top:10px;">
+        <li>You lose <strong>1 try</strong> each time you are defeated.</li>
+        <li>You gain <strong>1 try</strong> every time you clear a <strong>stage number divisible by 5</strong> (stage 5, 10, 15, 20…).</li>
+        <li>If your try count reaches 0, you must start over from the beginning.</li>
+    </ul>
+    <div class="progress-demo" style="margin-top:12px;"><div class="progress-fill"></div></div>
+    <div class="progress-text">Example: currently on stage 30 out of 100</div>
+
+    <h3>💥 Shell Types (4 Total)</h3>
+    <p>Each shell has a <strong>Durability</strong> value. When two shells collide, each shell loses durability equal to the other's value. A shell whose durability reaches 0 is destroyed. Higher durability shells can punch through weaker ones.</p>
+    <table class="item-table">
+        <tr><th>Shell Name</th><th>Description</th><th>Durability</th></tr>
+        <tr>
+            <td><span class="dot dot-red"></span><strong>Standard Shell</strong></td>
+            <td>Red beam. Bounces off walls <strong>once</strong>. The basic, all-purpose shell.</td>
+            <td style="text-align:center;font-weight:700;">1</td>
+        </tr>
+        <tr>
+            <td><span class="dot dot-green"></span><strong>Enhanced Shell</strong></td>
+            <td>Green beam. Bounces off walls <strong>multiple times</strong> without limit. Slightly faster than the Standard Shell.</td>
+            <td style="text-align:center;font-weight:700;">1</td>
+        </tr>
+        <tr>
+            <td><span class="dot dot-yellow"></span><strong>Split Shell</strong></td>
+            <td>Yellow beam. After bouncing off a wall, it <strong>splits into several shells</strong>. Moves slower than other shells.</td>
+            <td style="text-align:center;font-weight:700;">2</td>
+        </tr>
+        <tr>
+            <td><span class="dot dot-blue"></span><strong>Armor-Piercing Shell</strong></td>
+            <td>Blue beam. Punches straight through certain walls. Does not bounce. Fast. Some variants split directly in front of the tank when fired.</td>
+            <td style="text-align:center;font-weight:700;">4</td>
+        </tr>
+    </table>
+    <p style="font-size:0.88rem;color:#666;background:#f0f4f8;padding:8px 12px;border-radius:6px;">
+        💡 Example: A Standard Shell (1) collides with an Armor-Piercing Shell (4)
+        → Standard Shell is destroyed (1−1=0). Armor-Piercing Shell survives with 3 durability (4−1=3).
+    </p>
+
+    <h3>💣 Mine Types (2 Total)</h3>
+    <table class="item-table">
+        <tr><th>Mine Name</th><th>Trigger Condition</th></tr>
+        <tr>
+            <td><strong>Area Mine</strong></td>
+            <td>Detonates when any nearby <strong>tank or shell</strong> enters its range. You can trigger it remotely by shooting it with a shell from a safe distance.</td>
+        </tr>
+        <tr>
+            <td><strong>Selective Mine</strong></td>
+            <td>Only detonates when a nearby <strong>tank</strong> enters its range. Shells will not set it off. Best placed on paths where enemy tanks are likely to pass.</td>
+        </tr>
+    </table>
+
+    <h3>👥 Team Mission (3 Modes)</h3>
+    <p>Play together with other players online. Choose from three different modes — cooperative, competitive, or all-out PvP!</p>
+
+    <div class="mode-card">
+        <span class="mode-badge badge-co">Co-op</span>
+        <h4>① Team Mode</h4>
+        <p>Tackle Solo Mission stages together as a team. If all team members are defeated, the try count decreases by 1. Communicate and cooperate to wipe out every enemy on the stage!</p>
+    </div>
+
+    <div class="mode-card">
+        <span class="mode-badge badge-race">Competitive</span>
+        <h4>② Race Mode</h4>
+        <p>Select a stage and compete to see who can destroy the <strong>most enemy tanks</strong>. Tanks are freely selectable. Quick thinking and fast shooting are the keys to winning.</p>
+    </div>
+
+    <div class="mode-card">
+        <span class="mode-badge badge-pvp">PvP</span>
+        <h4>③ Battle Mode</h4>
+        <p>No AI enemies — pure player-vs-player combat. The <strong>last player standing</strong> wins. Tanks are freely selectable. Outsmart your opponents, dodge their shots, and be the last one alive!</p>
+    </div>
+
+</div><!-- col-en -->
+
+</div><!-- .columns -->
+
+<footer>
+    &copy; 2026 TankPath. All rights reserved.
+</footer>
+
+</body>
+</html>

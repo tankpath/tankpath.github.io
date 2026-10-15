@@ -1,0 +1,47 @@
+.fracture-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    overflow: hidden;
+    perspective: 1000px; /* 3D感用 */
+}
+
+/* 画面を覆うタイルの基本設定 */
+.fracture-tile {
+    position: absolute;
+    width: 20%; /* GRID_SIZEが5の場合 */
+    height: 20%;
+    background: #5BBCE8;
+    opacity: 1;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    /* 初期配置（格子状に並べるのはJSでやると重いので、中心から広がるイメージ） */
+    top: 40%; left: 40%; 
+}
+
+/* アニメーション開始 */
+.fracture-wrapper.is-active .fracture-tile {
+    animation: tile-disintegrate 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes tile-disintegrate {
+    0% {
+        transform: translateZ(0) rotateX(0) rotateY(0);
+        opacity: 1;
+    }
+    100% {
+        /* バラバラに散らばりながら透明になる */
+        transform: 
+            translate3d(
+                calc(var(--rand-x, 1) * 500px), 
+                calc(var(--rand-y, 1) * 500px), 
+                -1000px
+            ) 
+            rotateX(720deg) rotateY(720deg);
+        opacity: 0;
+    }
+}
+
+/* スキャンラインは既存のものを流用、または追加 */
+.fracture-wrapper.is-active .scan-line {
+    animation: scan-move 0.8s ease-in-out forwards;
+}

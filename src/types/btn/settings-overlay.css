@@ -1,0 +1,783 @@
+/* ========== 設定画面専用スタイル ========== */
+
+/* ウィンドウを画面全体に広げる */
+.stg-window {
+    width: min(960px, 92vw);
+    height: min(660px, 88vh);
+    max-height: 88vh;
+}
+
+/* ========== タブバー ========== */
+.stg-tabs {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    border-bottom: 1px solid rgba(56, 123, 148, 0.4);
+    background: rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
+    z-index: 3;
+    position: relative;
+}
+
+.stg-tab {
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(56, 123, 148, 0.25);
+    border-bottom: 3px solid transparent;
+    color: #4a8fa8;
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    padding: 13px 36px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    margin-bottom: -1px;
+}
+.stg-tab:hover {
+    color: #a8dff0;
+    background: rgba(56, 123, 148, 0.1);
+}
+.stg-tab--active {
+    color: #d8f5fb;
+    border-bottom-color: #5BBCE8;
+    background: rgba(91, 188, 232, 0.08);
+    text-shadow: 0 0 10px rgba(91, 188, 232, 0.55);
+}
+
+/* ========== コンテンツ ========== */
+.stg-content {
+    padding: 32px 40px;
+}
+
+/* ========== パネル表示切り替え ========== */
+.stg-panel {
+    display: none;
+}
+.stg-panel--active {
+    display: block;
+}
+
+/* ========== セクションラベル上書き（設定画面用） ========== */
+.stg-panel .ovl-section-label {
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    color: #5BBCE8;
+    margin: 0 0 18px;
+}
+
+/* ========== 設定行 ========== */
+.stg-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(56, 123, 148, 0.15);
+    gap: 24px;
+}
+.stg-row:last-child {
+    border-bottom: none;
+}
+
+.stg-row-label {
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: #a8dff0;
+    flex-shrink: 0;
+    min-width: 160px;
+}
+
+/* ========== オプションボタングループ（言語など） ========== */
+.stg-btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.stg-option-btn {
+    background: transparent;
+    border: 1px solid rgba(56, 123, 148, 0.45);
+    color: #4a8fa8;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    padding: 10px 28px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    min-width: 90px;
+}
+.stg-option-btn:hover {
+    color: #d8f5fb;
+    border-color: #5BBCE8;
+    background: rgba(91, 188, 232, 0.06);
+}
+.stg-option-btn--active {
+    color: #d8f5fb;
+    border-color: #5BBCE8;
+    background: rgba(91, 188, 232, 0.14);
+    box-shadow: 0 0 12px rgba(91, 188, 232, 0.3);
+}
+
+/* ========== スライダー ========== */
+.stg-slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    max-width: 420px;
+}
+
+.stg-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 28px;          /* タッチターゲット確保のため高さを確保 */
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+/* トラック — WebKit */
+.stg-slider::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 0;
+    background: linear-gradient(
+        to right,
+        #5BBCE8 0%,
+        #5BBCE8 var(--val, 80%),
+        rgba(56, 123, 148, 0.35) var(--val, 80%),
+        rgba(56, 123, 148, 0.35) 100%
+    );
+}
+
+/* トラック — Firefox */
+.stg-slider::-moz-range-track {
+    height: 5px;
+    border-radius: 0;
+    background: rgba(56, 123, 148, 0.35);
+}
+.stg-slider::-moz-range-progress {
+    height: 5px;
+    background: #5BBCE8;
+}
+
+/* サム — WebKit */
+.stg-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: #0b1f1f;
+    border: 2px solid #5BBCE8;
+    box-shadow: 0 0 10px rgba(91, 188, 232, 0.7);
+    cursor: pointer;
+    margin-top: -8.5px;   /* (22px - 5px) / 2 = 8.5px */
+    transition: background 0.15s, box-shadow 0.15s;
+}
+.stg-slider::-webkit-slider-thumb:hover {
+    background: rgba(91, 188, 232, 0.2);
+    box-shadow: 0 0 16px rgba(91, 188, 232, 0.9);
+}
+.stg-slider:active::-webkit-slider-thumb {
+    background: #5BBCE8;
+    box-shadow: 0 0 20px rgba(91, 188, 232, 1);
+}
+
+/* サム — Firefox */
+.stg-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    background: #0b1f1f;
+    border: 2px solid #5BBCE8;
+    box-shadow: 0 0 10px rgba(91, 188, 232, 0.7);
+    cursor: pointer;
+    border-radius: 0;
+    transition: background 0.15s, box-shadow 0.15s;
+}
+.stg-slider::-moz-range-thumb:hover {
+    background: rgba(91, 188, 232, 0.2);
+    box-shadow: 0 0 16px rgba(91, 188, 232, 0.9);
+}
+
+.stg-slider-val {
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: #5BBCE8;
+    min-width: 36px;
+    text-align: right;
+    text-shadow: 0 0 8px rgba(91, 188, 232, 0.5);
+}
+
+/* ========== パネルフッター（デフォルトに戻す） ========== */
+.stg-panel-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 24px;
+    margin-top: 8px;
+    border-top: 1px solid rgba(56, 123, 148, 0.15);
+}
+
+.stg-reset-btn {
+    background: transparent;
+    border: 1px solid rgba(56, 123, 148, 0.4);
+    color: #4a8fa8;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    padding: 9px 24px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.stg-reset-btn:hover {
+    color: #d8f5fb;
+    border-color: #5BBCE8;
+    background: rgba(91, 188, 232, 0.07);
+    box-shadow: 0 0 10px rgba(91, 188, 232, 0.2);
+}
+.stg-reset-btn:active {
+    background: rgba(91, 188, 232, 0.15);
+}
+
+.stg-save-btn {
+    background: rgba(91, 188, 232, 0.12);
+    border: 1px solid #5BBCE8;
+    color: #d8f5fb;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    padding: 9px 32px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s, box-shadow 0.15s;
+    box-shadow: 0 0 10px rgba(91, 188, 232, 0.2);
+}
+.stg-save-btn:hover {
+    background: rgba(91, 188, 232, 0.22);
+    box-shadow: 0 0 16px rgba(91, 188, 232, 0.4);
+}
+.stg-save-btn:active {
+    background: rgba(91, 188, 232, 0.35);
+}
+.stg-save-btn--done {
+    color: #5BBCE8;
+    background: rgba(91, 188, 232, 0.08);
+    box-shadow: 0 0 12px rgba(91, 188, 232, 0.3);
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ========== スマホ用注記 ========== */
+.stg-smartphone-note {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: #76c8de;
+    margin: 0 0 14px 0;
+    padding: 8px 14px;
+    border-left: 3px solid #5BBCE8;
+    background: rgba(91, 188, 232, 0.08);
+    text-shadow: 0 0 8px rgba(91, 188, 232, 0.4);
+}
+
+/* ========== 向きヒント ========== */
+.stg-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: rgba(91, 188, 232, 0.05);
+    border: 1px solid rgba(91, 188, 232, 0.2);
+    color: #a8dff0;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+}
+.stg-hint--active {
+    background: rgba(91, 188, 232, 0.14);
+    border-color: rgba(91, 188, 232, 0.6);
+    color: #d8f5fb;
+    box-shadow: 0 0 12px rgba(91, 188, 232, 0.25), inset 0 0 10px rgba(91, 188, 232, 0.06);
+}
+.stg-hint-icon {
+    font-size: 22px;
+    color: #5BBCE8;
+    flex-shrink: 0;
+    transition: text-shadow 0.25s, transform 0.25s;
+}
+.stg-hint--active .stg-hint-icon {
+    text-shadow:
+        0 0 10px rgba(91, 188, 232, 0.9),
+        0 0 24px rgba(91, 188, 232, 0.5);
+    transform: scale(1.2);
+}
+
+/* ========== チェックリスト ========== */
+.stg-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.stg-check-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 14px;
+    border: 1px solid rgba(56, 123, 148, 0.15);
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+}
+.stg-check-item:hover {
+    background: rgba(56, 123, 148, 0.08);
+}
+.stg-checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(56, 123, 148, 0.6);
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.15s, background 0.15s;
+}
+.stg-checkbox:checked {
+    border-color: #5BBCE8;
+    background: rgba(91, 188, 232, 0.15);
+}
+.stg-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: #5BBCE8;
+    box-shadow: 0 0 6px rgba(91, 188, 232, 0.6);
+}
+.stg-check-label {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: #a8dff0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.stg-check-tag {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: #387B94;
+    border: 1px solid rgba(56, 123, 148, 0.4);
+    padding: 1px 7px;
+}
+
+/* ========== バトル画面プレビュー ========== */
+.stg-preview {
+    margin-top: 20px;
+}
+.stg-preview-label {
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    color: #387B94;
+    margin-bottom: 8px;
+}
+.stg-preview-screen {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(91, 188, 232, 0.35);
+    background: #0d1f1a;
+    overflow: hidden;
+    position: relative;
+}
+
+/* グリッドフィールド（台形クリップ） */
+.stg-preview-field {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(5% 6%, 95% 6%, 97% 92%, 3% 92%);
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 17px,
+            rgba(56, 123, 148, 0.22) 17px,
+            rgba(56, 123, 148, 0.22) 20px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 17px,
+            rgba(56, 123, 148, 0.22) 17px,
+            rgba(56, 123, 148, 0.22) 20px
+        );
+}
+
+/* 台形フレーム（クリップ外・フィールドの上） */
+.stg-field-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 1;
+}
+.stg-field-frame polygon {
+    fill: none;
+    stroke: rgba(56, 123, 148, 0.75);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+}
+
+/* ── HUD オーバーレイ（絶対配置） ── */
+
+/* 右上: 弾数・地雷数 */
+.stg-preview-hud-resources {
+    position: absolute;
+    top: 4%;
+    right: 3%;
+    display: flex;
+    gap: 3px;
+    z-index: 2;
+}
+
+/* 上中央: タイマー */
+.stg-preview-hud-time {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(91, 188, 232, 0.6);
+    padding: 2px 10px;
+    background: rgba(13, 31, 26, 0.75);
+    z-index: 2;
+}
+
+/* 左上: 敵カウント */
+.stg-preview-hud-enemy {
+    position: absolute;
+    top: 4%;
+    left: 3%;
+    z-index: 2;
+}
+
+/* 左上付近: 残存プレイヤー */
+.stg-preview-hud-remain {
+    position: absolute;
+    top: 18%;
+    left: 3%;
+    z-index: 2;
+}
+
+/* HUD ボックス共通 */
+.stg-preview-hud-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(91, 188, 232, 0.45);
+    padding: 2px 8px;
+    min-width: 36px;
+    background: rgba(13, 31, 26, 0.75);
+    transition: opacity 0.2s;
+}
+.stg-preview-hud-key {
+    font-size: 6px;
+    letter-spacing: 0.2em;
+    color: #387B94;
+    line-height: 1.2;
+}
+.stg-preview-hud-num {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: #5BBCE8;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 6px rgba(91, 188, 232, 0.5);
+    line-height: 1.3;
+}
+
+/* HUD要素オフ状態 */
+.stg-preview-item--off {
+    opacity: 0.18;
+}
+
+/* 操作ボタン（ドラッグ可能・絶対配置） */
+.stg-preview-ctrl {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    will-change: transform;
+    z-index: 2;
+}
+.stg-preview-ctrl:hover .stg-preview-stick-icon {
+    border-color: rgba(91, 188, 232, 0.9);
+    box-shadow: 0 0 8px rgba(91, 188, 232, 0.4);
+}
+.stg-preview-ctrl:hover .stg-preview-mine-icon {
+    border-color: rgba(220, 80, 80, 0.9);
+    box-shadow: 0 0 8px rgba(220, 80, 80, 0.35);
+}
+.stg-preview-ctrl--dragging {
+    cursor: grabbing;
+}
+.stg-preview-ctrl--dragging .stg-preview-stick-icon {
+    border-color: #5BBCE8;
+    box-shadow: 0 0 14px rgba(91, 188, 232, 0.6);
+}
+.stg-preview-ctrl--dragging .stg-preview-mine-icon {
+    border-color: rgba(220, 80, 80, 1);
+    box-shadow: 0 0 14px rgba(220, 80, 80, 0.55);
+}
+.stg-preview-ctrl-label {
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    color: #387B94;
+    pointer-events: none;
+}
+
+/* ドラッグヒント */
+.stg-drag-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    padding: 8px 14px;
+    background: rgba(56, 123, 148, 0.05);
+    border: 1px solid rgba(56, 123, 148, 0.2);
+    color: #4a8fa8;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+}
+.stg-drag-hint-icon {
+    font-size: 16px;
+    color: #387B94;
+    flex-shrink: 0;
+}
+
+/* ジョイスティック（円形 + ナブ + 十字ガイド） */
+.stg-preview-stick-icon {
+    width: 54px;
+    height: 54px;
+    border: 2px solid rgba(91, 188, 232, 0.55);
+    border-radius: 50%;
+    position: relative;
+    background: rgba(91, 188, 232, 0.04);
+    transform: scale(var(--preview-scale, 1));
+    transform-origin: center center;
+}
+/* 十字ガイド（薄く） */
+.stg-preview-stick-icon::before,
+.stg-preview-stick-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(91, 188, 232, 0.18);
+}
+.stg-preview-stick-icon::before { width: 1px; height: 60%; }
+.stg-preview-stick-icon::after  { width: 60%; height: 1px; }
+/* センターナブ */
+.stg-preview-stick-nub {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36%;
+    height: 36%;
+    border-radius: 50%;
+    background: rgba(91, 188, 232, 0.22);
+    border: 1.5px solid rgba(91, 188, 232, 0.8);
+    box-shadow: 0 0 5px rgba(91, 188, 232, 0.3);
+}
+
+/* 地雷ボタン */
+.stg-preview-mine-icon {
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(220, 80, 80, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(220, 80, 80, 0.75);
+    transform: scale(var(--preview-scale, 1));
+    transform-origin: center center;
+}
+
+/* ========== 色相スライダー（レインボートラック） ========== */
+.stg-slider--hue::-webkit-slider-runnable-track {
+    background: linear-gradient(
+        to right,
+        hsl(0,90%,55%)   0%,
+        hsl(60,90%,55%)  17%,
+        hsl(120,90%,45%) 33%,
+        hsl(180,90%,45%) 50%,
+        hsl(240,90%,60%) 67%,
+        hsl(300,90%,55%) 83%,
+        hsl(360,90%,55%) 100%
+    );
+}
+.stg-slider--hue::-moz-range-track {
+    background: linear-gradient(
+        to right,
+        hsl(0,90%,55%)   0%,
+        hsl(60,90%,55%)  17%,
+        hsl(120,90%,45%) 33%,
+        hsl(180,90%,45%) 50%,
+        hsl(240,90%,60%) 67%,
+        hsl(300,90%,55%) 83%,
+        hsl(360,90%,55%) 100%
+    );
+}
+.stg-slider--hue::-moz-range-progress {
+    background: transparent;
+}
+
+/* ========== カーソルプレビュー ========== */
+.stg-cursor-preview-wrap {
+    margin-top: 24px;
+}
+
+.stg-cursor-preview-box {
+    width: 120px;
+    height: 120px;
+    background: #0b1f1f;
+    border: 1px solid rgba(56, 123, 148, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stg-cursor-preview-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+    image-rendering: pixelated;
+}
+
+/* ========== 縦向きプレビュー ========== */
+
+/* 縦向きプレビューを中央揃えで表示するラッパー */
+.stg-pt-preview-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+/* 縦向きプレビュー画面（9:16 比率） */
+.stg-preview-screen--portrait {
+    width: 158px;
+    aspect-ratio: 9 / 16;
+    /* base クラスの width:100% を上書き */
+}
+
+/* 縦向きフィールド（台形クリップ、上半分のみ） */
+.stg-preview-field--portrait {
+    clip-path: polygon(8% 3%, 92% 3%, 94% 46%, 6% 46%);
+}
+
+/* 縦向きプレビュー: 敵カウント・残弾/地雷を境界線(50%)のすぐ上に配置 */
+.stg-preview-screen--portrait .stg-preview-hud-enemy {
+    top: auto;
+    bottom: 52%;
+    left: 3%;
+}
+.stg-preview-screen--portrait .stg-preview-hud-remain {
+    top: auto;
+    bottom: 52%;
+    left: 3%;
+}
+.stg-preview-screen--portrait .stg-preview-hud-resources {
+    top: auto;
+    bottom: 52%;
+    right: 3%;
+}
+
+/* 下半分コントロールゾーン（ドラッグ可能エリア） */
+.stg-pt-ctrl-zone {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    bottom: 0;
+    background: rgba(56, 123, 148, 0.06);
+    border-top: 1px dashed rgba(91, 188, 232, 0.4);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ========== レスポンシブ ========== */
+@media (max-width: 767px) {
+    .stg-window {
+        width: 100%;
+        height: 85vh;
+    }
+    .stg-content {
+        padding: 20px 18px;
+    }
+    .stg-tab {
+        font-size: 12px;
+        padding: 11px 22px;
+    }
+    .stg-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .stg-slider-wrap {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* スマホ横向き専用 */
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+    .stg-window {
+        width: min(640px, 96vw);
+        height: 92vh;
+        max-height: 92vh;
+    }
+    .stg-tab {
+        padding: 8px 18px;
+        font-size: 11px;
+    }
+    .stg-content {
+        padding: 14px 16px;
+    }
+    .stg-row-label {
+        min-width: 120px;
+        font-size: 12px;
+    }
+    .stg-panel-footer {
+        padding-top: 14px;
+    }
+    .stg-preview-screen {
+        aspect-ratio: 16 / 9;
+    }
+    .stg-preview-stick-icon {
+        width: 40px;
+        height: 40px;
+    }
+    .stg-preview-mine-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 8px;
+    }
+    .stg-drag-hint {
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+    .stg-checklist {
+        gap: 2px;
+    }
+    .stg-check-item {
+        padding: 8px 12px;
+    }
+}

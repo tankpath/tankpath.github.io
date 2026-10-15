@@ -1,0 +1,686 @@
+/* ========== Stage100 特殊演出 ========== */
+.bc-stage100-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+.bc-stage100-overlay--visible {
+    opacity: 1;
+}
+.bc-stage100-overlay--hide {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+.bc-stage100-text {
+    font-family: serif;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    color: #e8e0cc;
+    text-shadow: 0 0 16px rgba(255, 220, 150, 0.7);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    text-align: center;
+}
+
+/* ========== Battle Scene ========== */
+.battle-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #132727;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Three.js キャンバスコンテナ */
+#battle-three-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ========== HUD オーバーレイ ========== */
+.battle-hud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* スキャンライン */
+.bc-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.12) 3px,
+        rgba(0, 0, 0, 0.12) 4px
+    );
+    pointer-events: none;
+}
+
+/* 四隅ブラケット */
+.bc-corner {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+}
+.bc-corner--tl { top: 16px; left: 16px;
+    border-top: 2px solid #387B94; border-left: 2px solid #387B94; }
+.bc-corner--tr { top: 16px; right: 16px;
+    border-top: 2px solid #387B94; border-right: 2px solid #387B94; }
+.bc-corner--bl { bottom: 16px; left: 16px;
+    border-bottom: 2px solid #387B94; border-left: 2px solid #387B94; }
+.bc-corner--br { bottom: 16px; right: 16px;
+    border-bottom: 2px solid #387B94; border-right: 2px solid #387B94; }
+
+/* ========== 左上: ステータスボックス (ENEMY / PLAYERS) ========== */
+.bc-status-box {
+    position: absolute;
+    top: 50px;
+    left: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 16px 10px;
+    background: rgba(19, 39, 39, 0.82);
+    border: 2px solid #387B94;
+    pointer-events: none;
+}
+
+.bc-status-label {
+    font-size: 16px;
+    letter-spacing: 0.4em;
+    color: #516f6f;
+    text-transform: uppercase;
+}
+
+.bc-status-main {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bc-status-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    opacity: 0.75;
+    filter: brightness(0) saturate(100%) invert(72%) sepia(40%) saturate(400%) hue-rotate(165deg) brightness(1.1);
+}
+
+.bc-status-value {
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    color: #5BBCE8;
+    text-shadow:
+        0 0 10px rgba(91, 188, 232, 0.7),
+        0 0 24px rgba(91, 188, 232, 0.3);
+}
+
+/* ========== 中央上: タイマー ========== */
+.bc-timer-box {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 45px 10px;
+    background: rgba(19, 39, 39, 0.82);
+    border: 1px solid #387B94;
+    pointer-events: none;
+}
+
+.bc-timer-label {
+    font-size: 16px;
+    letter-spacing: 0.4em;
+    color: #516f6f;
+    text-transform: uppercase;
+}
+
+.bc-timer-value {
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: 0.15em;
+    color: #76c8de;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 10px rgba(118, 200, 222, 0.5);
+}
+
+/* ========== 右上: リソースボックス (SHELL / MINE) ========== */
+.bc-resources-box {
+    position: absolute;
+    top: 50px;
+    right: 52px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(19, 39, 39, 0.82);
+    border: 2px solid #387B94;
+    pointer-events: none;
+}
+
+.bc-resource-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+}
+
+.bc-resource-sep {
+    height: 1px;
+    background: rgba(56, 123, 148, 0.4);
+    margin: 0 10px;
+}
+
+.bc-resource-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    opacity: 0.75;
+    filter: brightness(0) saturate(100%) invert(72%) sepia(40%) saturate(400%) hue-rotate(165deg) brightness(1.1);
+}
+
+.bc-resource-label {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: #516f6f;
+    text-transform: uppercase;
+    margin-right: 2px;
+}
+
+.bc-resource-x {
+    font-size: 36px;
+    color: #516f6f;
+    line-height: 1;
+}
+
+.bc-resource-value {
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    color: #5BBCE8;
+    min-width: 2ch;
+    text-align: right;
+    text-shadow:
+        0 0 10px rgba(91, 188, 232, 0.7),
+        0 0 24px rgba(91, 188, 232, 0.3);
+}
+
+/* ========== STOP ボタン ========== */
+.bc-stop-btn {
+    position: absolute;
+    top: 32px;
+    right: 30%;
+    background: transparent;
+    border: 2px solid rgba(56, 123, 148, 0.5);
+    color: #76c8de;
+    font-family: inherit;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    padding: 18px 24px;
+    cursor: pointer;
+    pointer-events: all;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+}
+.bc-stop-btn:hover {
+    background: rgba(56, 123, 148, 0.18);
+    border-color: #5BBCE8;
+    box-shadow: 0 0 8px rgba(91, 188, 232, 0.3);
+    color: #d8f5fb;
+}
+
+/* ========== ポーズオーバーレイ ========== */
+.bc-pause-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 22, 22, 0.80);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    pointer-events: all;
+}
+.bc-pause-overlay--visible {
+    display: flex;
+}
+
+.bc-pause-panel {
+    background: rgba(13, 31, 31, 0.97);
+    border: 1px solid #387B94;
+    box-shadow: 0 0 40px rgba(91, 188, 232, 0.12);
+    padding: 28px 36px 24px;
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bc-pause-title {
+    font-size: 10px;
+    letter-spacing: 0.55em;
+    color: #516f6f;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.bc-pause-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bc-pause-btn {
+    background: transparent;
+    border: 1px solid rgba(56, 123, 148, 0.45);
+    color: #76c8de;
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    padding: 10px 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+}
+.bc-pause-btn:hover {
+    background: rgba(56, 123, 148, 0.15);
+    border-color: #5BBCE8;
+    box-shadow: 0 0 10px rgba(91, 188, 232, 0.22);
+    color: #d8f5fb;
+}
+
+.bc-pause-resume {
+    background: rgba(91, 188, 232, 0.1);
+    border-color: #5BBCE8;
+    color: #d8f5fb;
+    box-shadow: 0 0 8px rgba(91, 188, 232, 0.18);
+}
+.bc-pause-resume:hover {
+    background: rgba(91, 188, 232, 0.2);
+    box-shadow: 0 0 16px rgba(91, 188, 232, 0.38);
+}
+
+/* ========== タッチ操作コントロール ========== */
+/* ジョイスティックと地雷ボタンはそれぞれ独立して絶対配置 */
+/* デフォルト位置: スティック→左下、地雷→右下              */
+/* .bc-ctrl--custom が付いた場合は JS の left/top が優先   */
+
+/* ── ジョイスティック ── */
+.bc-stick {
+    display: none;
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    width: calc(120px * var(--stick-scale, 1));
+    height: calc(120px * var(--stick-scale, 1));
+    border-radius: 50%;
+    background: rgba(19, 39, 39, 0.22);
+    border: 2px solid rgba(56, 123, 148, 0.75);
+    box-shadow:
+        0 0 0 1px rgba(91, 188, 232, 0.12),
+        0 0 16px rgba(91, 188, 232, 0.08),
+        inset 0 0 20px rgba(0, 0, 0, 0.2);
+    pointer-events: all;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+@media (pointer: coarse) {
+    .bc-stick { display: block; }
+}
+
+/* JS から位置が指定された場合は bottom/left を無効化して center-anchor に切り替え */
+.bc-stick.bc-ctrl--custom {
+    bottom: auto;
+    left: auto;
+    transform: translate(-50%, -50%);
+}
+
+/* ナブ（動く内側の円） */
+.bc-stick-nub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36%;
+    height: 36%;
+    border-radius: 50%;
+    background: rgba(91, 188, 232, 0.18);
+    border: 2px solid rgba(91, 188, 232, 0.8);
+    box-shadow: 0 0 10px rgba(91, 188, 232, 0.35);
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* ── アクションボタン（MINE） ── */
+.bc-touch-actions {
+    display: none;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: all;
+}
+
+@media (pointer: coarse) {
+    .bc-touch-actions { display: flex; }
+}
+
+.bc-touch-actions.bc-ctrl--custom {
+    bottom: auto;
+    right: auto;
+    transform: translate(-50%, -50%);
+}
+
+.bc-touch-btn {
+    width: calc(72px * var(--mine-scale, 1));
+    height: calc(72px * var(--mine-scale, 1));
+    background: rgba(19, 39, 39, 0.22);
+    border: 2px solid rgba(220, 80, 80, 0.65);
+    color: rgba(220, 80, 80, 0.85);
+    font-family: inherit;
+    font-size: calc(10px * var(--mine-scale, 1));
+    letter-spacing: 0.15em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 1px rgba(220, 80, 80, 0.1),
+        0 0 14px rgba(220, 80, 80, 0.08),
+        inset 0 0 16px rgba(0, 0, 0, 0.2);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: none;
+    transition: background 0.1s, box-shadow 0.1s, border-color 0.1s;
+}
+
+.bc-touch-btn:active {
+    background: rgba(220, 80, 80, 0.22);
+    border-color: rgba(220, 80, 80, 0.95);
+    box-shadow: 0 0 18px rgba(220, 80, 80, 0.45);
+    color: #ff9090;
+}
+
+/* ========== 照準ライン ========== */
+.bc-aim-line {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 5;
+    display: none;
+}
+
+#bc-aim-line-el {
+    stroke: #5BBCE8;
+    stroke-width: 1;
+    stroke-opacity: 0.45;
+    stroke-dasharray: 6 4;
+}
+
+/* ========== カーソル ========== */
+
+/* カスタムカーソル有効時はネイティブカーソルを非表示 */
+@media (pointer: fine) {
+    .battle-scene.bc-custom-cursor {
+        cursor: none;
+    }
+}
+
+.bc-cursor {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 100;
+    display: none;
+    /* 画像の中央をマウス位置に合わせる */
+    transform: translate(-50%, -50%);
+}
+
+.bc-cursor img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* タッチ時: 指を離してからフェードアウト */
+@media (pointer: coarse) {
+    .bc-cursor {
+        transition: opacity 0.3s;
+    }
+
+    .bc-cursor.bc-cursor--fade {
+        opacity: 0;
+    }
+}
+
+/* ========== スマホ横向き ========== */
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+    /* 四隅ブラケット */
+    .bc-corner { width: 18px; height: 18px; }
+    .bc-corner--tl { top: 16px;  left: 16px; }
+    .bc-corner--tr { top: 16px;  right: 16px; }
+    .bc-corner--bl { bottom: 16px; left: 16px; }
+    .bc-corner--br { bottom: 16px; right: 16px; }
+
+    /* ステータスボックス (ENEMY / PLAYERS) */
+    .bc-status-box {
+        top: 36px;
+        left: 36px;
+        padding: 4px 8px 4px;
+        gap: 1px;
+        border-width: 1px;
+    }
+    .bc-status-label { font-size: 11px; letter-spacing: 0.2em; }
+    .bc-status-icon  { width: 20px; height: 20px; }
+    .bc-status-value { font-size: 32px; }
+
+    /* タイマー */
+    .bc-timer-box {
+        top: 15px;
+        padding: 4px 20px 4px;
+        gap: 1px;
+    }
+    .bc-timer-label { font-size: 11px; letter-spacing: 0.25em; }
+    .bc-timer-value { font-size: 18px; }
+
+    /* リソースボックス (SHELL / MINE) */
+    .bc-resources-box {
+        top: 36px;
+        right: 36px;
+        border-width: 1px;
+    }
+    .bc-resource-item {
+        padding: 3px 8px;
+        gap: 3px;
+    }
+    .bc-resource-icon { width: 20px; height: 20px; }
+    .bc-resource-x    { font-size: 15px; }
+    .bc-resource-value { font-size: 24px; }
+    .bc-resource-sep { margin: 0 6px; }
+
+    /* STOP ボタン */
+    .bc-stop-btn {
+        top: 15px;
+        right: 25%;
+        font-size: 24px;
+        padding: 3px 8px;
+        letter-spacing: 0.1em;
+    }
+
+    /* ジョイスティック（基底サイズを縮小、倍率は --stick-scale で調整） */
+    .bc-stick {
+        width: calc(100px * var(--stick-scale, 1));
+        height: calc(100px * var(--stick-scale, 1));
+    }
+
+    /* 地雷ボタン（基底サイズを縮小、倍率は --mine-scale で調整） */
+    .bc-touch-btn {
+        width: calc(60px * var(--mine-scale, 1));
+        height: calc(60px * var(--mine-scale, 1));
+        font-size: calc(9px * var(--mine-scale, 1));
+    }
+}
+
+/* ========== スマホ縦向きモード（設定で portrait 選択時） ========== */
+
+/* Three.js キャンバスを上部 60% に固定 */
+.battle-scene--portrait #battle-three-container {
+    inset: unset;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+}
+
+/* 操作エリア背景（下部 40%） */
+.bc-portrait-ctrl-bg {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 60%;
+    bottom: 0;
+    background: rgba(10, 22, 22, 0.55);
+    border-top: 1px solid rgba(56, 123, 148, 0.5);
+    pointer-events: none;
+    z-index: 1;
+}
+.battle-scene--portrait .bc-portrait-ctrl-bg {
+    display: block;
+}
+
+/* 下コーナーブラケットをゲームエリア下端へ移動 */
+.battle-scene--portrait .bc-corner--bl {
+    bottom: auto;
+    top: calc(60% - 40px);
+}
+.battle-scene--portrait .bc-corner--br {
+    bottom: auto;
+    top: calc(60% - 40px);
+}
+
+/* ズームスライダー（縦向き操作エリア内） */
+.bc-zoom-slider-wrap {
+    display: none;
+}
+.battle-scene--portrait .bc-zoom-slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 70%;
+    pointer-events: all;
+}
+.bc-zoom-slider-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #387B94;
+    white-space: nowrap;
+}
+.bc-zoom-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    background: rgba(56, 123, 148, 0.4);
+    outline: none;
+    border-radius: 2px;
+}
+.bc-zoom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #5BBCE8;
+    box-shadow: 0 0 6px rgba(91, 188, 232, 0.6);
+    cursor: pointer;
+}
+.bc-zoom-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #5BBCE8;
+    box-shadow: 0 0 6px rgba(91, 188, 232, 0.6);
+    cursor: pointer;
+    border: none;
+}
+
+/* 上コーナー */
+.battle-scene--portrait .bc-corner--tl {
+    top: 40px;
+}
+.battle-scene--portrait .bc-corner--tr {
+    top: 40px;
+}
+
+/* HUD コンパクト化（縦向きは画面幅が狭い） */
+.battle-scene--portrait .bc-status-box {
+    top: calc(60% - 80px);
+    left: 32px;
+    padding: 4px 8px;
+    gap: 1px;
+    border-width: 1px;
+}
+.battle-scene--portrait .bc-status-label {
+     font-size: 10px; letter-spacing: 0.15em; 
+    }
+.battle-scene--portrait .bc-status-icon  { width: 18px; height: 18px; }
+.battle-scene--portrait .bc-status-value { font-size: 24px; }
+
+.battle-scene--portrait .bc-timer-box {
+    top: 50px;
+    padding: 4px 14px;
+    gap: 1px;
+}
+.battle-scene--portrait .bc-timer-label { font-size: 10px; letter-spacing: 0.2em; }
+.battle-scene--portrait .bc-timer-value { font-size: 18px; }
+
+.battle-scene--portrait .bc-resources-box {
+    top: calc(60% - 80px);
+    right: 32px;
+    border-width: 1px;
+}
+.battle-scene--portrait .bc-resource-item  { padding: 3px 8px; gap: 3px; }
+.battle-scene--portrait .bc-resource-icon  { width: 18px; height: 18px; }
+.battle-scene--portrait .bc-resource-x    { font-size: 14px; }
+.battle-scene--portrait .bc-resource-value { font-size: 20px; }
+.battle-scene--portrait .bc-resource-sep  { margin: 0 5px; }
+
+.battle-scene--portrait .bc-stop-btn {
+    top: calc(60% - 80px);
+    right: calc(50% - 20px);
+    font-size: 18px;
+    padding: 10px 10px;
+    letter-spacing: 0.1em;
+}

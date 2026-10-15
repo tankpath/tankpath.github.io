@@ -1,0 +1,482 @@
+/* ========== Result Scene ========== */
+.result-scene {
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       調整用カスタムプロパティ（ここだけ変えれば各要素に反映されます）
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* 四隅ブラケット */
+    --rs-corner-offset-v: 14px;  /* 枠からの距離（上下） */
+    --rs-corner-offset-h: 14px;  /* 枠からの距離（左右） */
+    --rs-corner-size:     28px;  /* ブラケットのサイズ */
+
+    /* レイアウト余白・間隔 */
+    --rs-padding-v:      40px;   /* 上パディング */
+    --rs-padding-h:      36px;   /* 左右パディング */
+    --rs-padding-bottom: var(--rs-padding-v); /* 下パディング（省略時は上と同値） */
+    --rs-gap:            28px;   /* グリッド間隔 */
+    --rs-right-col:      2fr;    /* 右カラム幅（PCグリッド比） */
+
+    /* ボタンエリア */
+    --rs-actions-width:  320px;  /* ボタンエリア幅 */
+    --rs-btn-padding-v:  20px;   /* ボタン上下パディング */
+
+    /* 広告スロット */
+    --rs-ad-width:       320px;  /* 広告幅 */
+    --rs-ad-height:      250px;  /* 広告高さ（PC） */
+    --rs-ad-height-sm:   50px;   /* 広告高さ（スマホ：横画面・縦画面共通） */
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #0e1f1f;
+    background-image:
+        linear-gradient(rgba(56, 123, 148, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 123, 148, 0.10) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: #d8f5fb;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+
+    display: grid;
+    grid-template-columns: 3fr var(--rs-right-col);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "left  right"
+        "full  right";
+    padding: var(--rs-padding-v) var(--rs-padding-h) var(--rs-padding-bottom);
+    gap: var(--rs-gap);
+    box-sizing: border-box;
+}
+
+/* スキャンライン オーバーレイ（薄め） */
+.result-scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.08) 3px,
+        rgba(0, 0, 0, 0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 四隅ブラケット装飾 */
+.rs-corner {
+    position: absolute;
+    width: var(--rs-corner-size);
+    height: var(--rs-corner-size);
+    z-index: 2;
+}
+.rs-corner--tl { top: var(--rs-corner-offset-v); left: var(--rs-corner-offset-h);
+    border-top: 2px solid #5BBCE8; border-left: 2px solid #5BBCE8; }
+.rs-corner--tr { top: var(--rs-corner-offset-v); right: var(--rs-corner-offset-h);
+    border-top: 2px solid #5BBCE8; border-right: 2px solid #5BBCE8; }
+.rs-corner--bl { bottom: var(--rs-corner-offset-v); left: var(--rs-corner-offset-h);
+    border-bottom: 2px solid #5BBCE8; border-left: 2px solid #5BBCE8; }
+.rs-corner--br { bottom: var(--rs-corner-offset-v); right: var(--rs-corner-offset-h);
+    border-bottom: 2px solid #5BBCE8; border-right: 2px solid #5BBCE8; }
+
+/* スキャン光帯 */
+@keyframes rs-scan-sweep {
+    0%   { transform: translateY(-100%); opacity: 0.5; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+.rs-scanbeam {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(91, 188, 232, 0.10), transparent);
+    pointer-events: none;
+    z-index: 1;
+    animation: rs-scan-sweep 4s linear infinite;
+}
+
+/* ========== 左カラム（ヘッダー + MISSION DATA） ========== */
+.rs-left {
+    grid-area: left;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+/* ========== 全幅下段（BREAKDOWN 等） ========== */
+.rs-full {
+    grid-area: full;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 0;
+}
+
+/* ヘッダー */
+.rs-header {
+    text-align: left;
+}
+.rs-header-label {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: #7aa8b8;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+}
+.rs-header-title {
+    font-size: 24px;
+    letter-spacing: 0.4em;
+    color: #a8e6f5;
+    text-shadow:
+        0 0 14px rgba(91, 188, 232, 0.9),
+        0 0 32px rgba(91, 188, 232, 0.4);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* 区切り線 */
+.rs-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #76c8de;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    white-space: nowrap;
+}
+.rs-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #5BBCE8, transparent);
+}
+
+/* メインステータス（Stage / Time / Total） */
+.rs-stats {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #4a9ab8;
+    background: rgba(56, 123, 148, 0.12);
+}
+
+.rs-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    border-bottom: 1px solid rgba(91, 188, 232, 0.2);
+}
+.rs-stat-row:last-child {
+    border-bottom: none;
+}
+
+.rs-stat-label {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: #7aa8b8;
+    text-transform: uppercase;
+}
+
+.rs-stat-value {
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    color: #5BBCE8;
+    text-shadow:
+        0 0 10px rgba(91, 188, 232, 0.8),
+        0 0 28px rgba(91, 188, 232, 0.4);
+}
+
+/* 各戦車撃破数リスト */
+.rs-kills {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #4a9ab8;
+    background: rgba(56, 123, 148, 0.08);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+.rs-full .rs-kills {
+    flex: 1;
+    min-height: 80px;
+}
+
+.rs-kill-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 18px;
+    border-bottom: 1px solid rgba(91, 188, 232, 0.15);
+}
+.rs-kill-row:last-child {
+    border-bottom: none;
+}
+
+.rs-kill-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rs-kill-icon {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    -webkit-mask: url('/assets/icon/Icon_Tank_Player.png') center / contain no-repeat;
+    mask: url('/assets/icon/Icon_Tank_Player.png') center / contain no-repeat;
+}
+
+.rs-kill-label {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: #a8e6f5;
+    text-transform: uppercase;
+}
+
+.rs-kill-value {
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    color: #5BBCE8;
+    text-shadow: 0 0 10px rgba(91, 188, 232, 0.7);
+}
+
+/* ========== 右カラム（ボタン + 広告） ========== */
+.rs-right {
+    grid-area: right;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-width: 0;
+}
+/* PC: 広告を上、ボタンを下に表示 */
+.rs-right .rs-ad-slots { order: 1; flex: 1; min-height: 0; }
+.rs-right .rs-actions  { order: 2; flex: 0 0 auto; }
+
+/* 広告スロット */
+.rs-ad-slots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+}
+
+.rs-ad-slot {
+    width: var(--rs-ad-width);
+    height: var(--rs-ad-height);
+    flex-shrink: 0;
+    border: 1px dashed rgba(91, 188, 232, 0.3);
+    background: rgba(56, 123, 148, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(120, 180, 200, 0.5);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+.rs-ad-slot::after {
+    content: 'AD 320×250';
+}
+
+/* ボタンエリア */
+.rs-actions {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: var(--rs-actions-width);
+}
+
+.rs-btn {
+    flex: 1;
+    padding: var(--rs-btn-padding-v) 8px;
+    background: transparent;
+    border: 1px solid #4a9ab8;
+    color: #a8e6f5;
+    font-size: 15px;
+    font-family: inherit;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.rs-btn:hover {
+    background: rgba(56, 123, 148, 0.25);
+    color: #d8f5fb;
+    box-shadow: 0 0 14px rgba(91, 188, 232, 0.35);
+}
+.rs-btn--primary {
+    border-color: #5BBCE8;
+    color: #5BBCE8;
+}
+.rs-btn--primary:hover {
+    background: rgba(91, 188, 232, 0.18);
+    box-shadow: 0 0 18px rgba(91, 188, 232, 0.5);
+}
+
+/* ========== 勝者表示（Race / Battle 用） ========== */
+.rs-winner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    border: 1px solid #5BBCE8;
+    background: rgba(91, 188, 232, 0.08);
+    padding: 18px 22px;
+    box-shadow: 0 0 28px rgba(91, 188, 232, 0.25);
+}
+
+.rs-winner-label {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: #76c8de;
+    text-transform: uppercase;
+}
+
+.rs-winner-name {
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    color: #5BBCE8;
+    text-shadow:
+        0 0 16px rgba(91, 188, 232, 0.9),
+        0 0 40px rgba(91, 188, 232, 0.5);
+}
+
+/* ========== タブレット（480〜767px） ========== */
+@media (max-width: 767px) and (min-width: 480px) {
+    .result-scene {
+        --rs-padding-v: 32px;
+        --rs-padding-h: 20px;
+        --rs-gap:       20px;
+    }
+
+    .rs-stat-value   { font-size: 38px; }
+    .rs-kill-value   { font-size: 22px; }
+    .rs-header-title { font-size: 18px; }
+    .rs-stat-row     { padding: 7px 14px; }
+    .rs-kill-row     { padding: 7px 14px; }
+    .rs-winner-name  { font-size: 42px; }
+}
+
+/* ========== スマホ横（landscape・タッチ画面・高さ〜600px） ========== */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 600px) {
+    .result-scene {
+        --rs-padding-v:     32px;
+        --rs-padding-h:     48px;
+        --rs-gap:           12px;
+        --rs-right-col:     320px;   /* 右カラムを固定幅に */
+        --rs-actions-width: 100%;    /* ボタンを右カラム全幅に */
+        --rs-ad-height:     var(--rs-ad-height-sm);
+
+        /* グリッド: 下段は full が全幅を占める */
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "left  right"
+            "full  full";
+    }
+
+    /* 右カラム: 広告上・ボタン下 */
+    .rs-right {
+        align-items: stretch;
+        gap: 40px;
+        justify-content: flex-end;
+    }
+    .rs-right .rs-ad-slots { order: 1; flex: 0 0 auto; }
+    .rs-right .rs-actions  { order: 2; }
+
+    /* 広告は1枚のみ表示 */
+    .rs-ad-slots .rs-ad-slot:nth-child(2) { display: none; }
+
+    /* rs-full を残り高さいっぱいに使い、内部でスクロール */
+    .rs-full {
+        min-height: 0;
+        gap: 6px;
+    }
+    .rs-full .rs-kills {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    .rs-left         { gap: 8px; }
+    .rs-stat-value   { font-size: 26px; }
+    .rs-kill-value   { font-size: 18px; }
+    .rs-header-title { font-size: 14px; }
+    .rs-stat-row     { padding: 4px 12px; }
+    .rs-kill-row     { padding: 4px 12px; }
+    .rs-kill-icon    { width: 32px; height: 32px; }
+    .rs-btn          { padding: 20px 6px; font-size: 13px; }
+    .rs-winner-name  { font-size: 32px; }
+}
+
+/* ========== スマホ縦（portrait・タッチ画面・幅〜600px） ========== */
+@media (orientation: portrait) and (pointer: coarse) and (max-width: 600px) {
+    .result-scene {
+        --rs-corner-offset-v: 35px;
+        --rs-corner-offset-h: 20px;
+        --rs-padding-v:       90px;
+        --rs-padding-h:       32px;
+        --rs-padding-bottom:  60px;
+        --rs-gap:             14px;
+        --rs-actions-width:   100%;  /* ボタンを全幅に */
+        --rs-ad-height:       var(--rs-ad-height-sm);
+
+        --rs-btn-padding-v:   60px;
+        --rs-right-gap:       25px;   /* ボタン↔広告の距離 */
+        --rs-right-below-gap: 0px;   /* 広告↔RESULTの距離 */
+
+        /* 1カラム：ボタン/広告 → MISSION DATA → BREAKDOWN の順 */
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "right"
+            "left"
+            "full";
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .rs-btn {
+        font-size: 15px;
+    }
+
+    /* rs-right: ボタンが上・広告が下の縦積み */
+    .rs-right {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--rs-right-gap);
+        width: 100%;
+        margin-bottom: var(--rs-right-below-gap);
+    }
+    .rs-right .rs-actions  { order: 1; flex: 0 0 auto; flex-direction: row; gap: 10px; }
+    .rs-right .rs-ad-slots { order: 2; flex: 0 0 auto; }
+
+    /* 広告: 全幅 */
+    .rs-ad-slots { flex-direction: row; }
+    .rs-ad-slot  { flex: 1; width: auto; min-width: 0; }
+    .rs-ad-slot:nth-child(2) { display: none; }
+
+    .rs-stat-value   { font-size: 34px; }
+    .rs-kill-value   { font-size: 20px; }
+    .rs-stat-row     { padding: 7px 14px; }
+    .rs-kill-row     { padding: 6px 14px; }
+}

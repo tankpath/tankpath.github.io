@@ -1,0 +1,278 @@
+/* ========== Mission Complete Scene ========== */
+.mc-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #132727;
+    background-image:
+        linear-gradient(rgba(56, 123, 148, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 123, 148, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: #d8f5fb;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 40px 36px;
+}
+
+/* スキャンライン オーバーレイ */
+.mc-scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.18) 3px,
+        rgba(0, 0, 0, 0.18) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 四隅ブラケット装飾 */
+.mc-corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    z-index: 2;
+}
+.mc-corner--tl { top: 16px; left: 16px;
+    border-top: 2px solid #387B94; border-left: 2px solid #387B94; }
+.mc-corner--tr { top: 16px; right: 16px;
+    border-top: 2px solid #387B94; border-right: 2px solid #387B94; }
+.mc-corner--bl { bottom: 16px; left: 16px;
+    border-bottom: 2px solid #387B94; border-left: 2px solid #387B94; }
+.mc-corner--br { bottom: 16px; right: 16px;
+    border-bottom: 2px solid #387B94; border-right: 2px solid #387B94; }
+
+/* スキャン光帯 */
+@keyframes mc-scan-sweep {
+    0%   { transform: translateY(-100%); opacity: 0.4; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+.mc-scanbeam {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(91, 188, 232, 0.06), transparent);
+    pointer-events: none;
+    z-index: 1;
+    animation: mc-scan-sweep 4s linear infinite;
+}
+
+/* 紙吹雪キャンバス */
+.mc-confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ========== コンテンツ本体 ========== */
+.mc-body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    max-width: 560px;
+}
+
+/* タイトル */
+.mc-title {
+    font-size: 40px;
+    letter-spacing: 0.12em;
+    color: #5BBCE8;
+    text-shadow:
+        0 0 20px rgba(91, 188, 232, 1.0),
+        0 0 50px rgba(91, 188, 232, 0.6),
+        0 0 90px rgba(91, 188, 232, 0.3);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* プレイヤーカード */
+.mc-player-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(56, 123, 148, 0.07);
+    border: 1px solid rgba(56, 123, 148, 0.4);
+    padding: 14px 18px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mc-avatar-wrap {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border: 1px solid #387B94;
+    overflow: hidden;
+}
+
+.mc-avatar-canvas {
+    display: block;
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
+}
+
+.mc-player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.mc-player-title-text {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #387B94;
+    text-transform: uppercase;
+}
+
+.mc-player-name {
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    color: #d8f5fb;
+    text-shadow:
+        0 0 10px rgba(216, 245, 251, 0.4);
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 区切り線 */
+.mc-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #387B94;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    width: 100%;
+}
+.mc-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #387B94, transparent);
+}
+
+/* ステータス枠 */
+.mc-stats {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #387B94;
+    background: rgba(56, 123, 148, 0.07);
+    width: 100%;
+}
+
+.mc-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 18px;
+    border-bottom: 1px solid rgba(56, 123, 148, 0.3);
+}
+.mc-stat-row:last-child {
+    border-bottom: none;
+}
+
+.mc-stat-label {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: #516f6f;
+    text-transform: uppercase;
+}
+
+.mc-stat-value {
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    color: #5BBCE8;
+    text-shadow:
+        0 0 10px rgba(91, 188, 232, 0.7),
+        0 0 24px rgba(91, 188, 232, 0.3);
+}
+
+/* ボタン */
+.mc-actions {
+    width: 200px;
+}
+
+.mc-btn {
+    width: 100%;
+    padding: 13px 8px;
+    background: rgba(91, 188, 232, 0.1);
+    border: 1px solid #5BBCE8;
+    color: #5BBCE8;
+    font-size: 11px;
+    font-family: inherit;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.mc-btn:hover {
+    background: rgba(91, 188, 232, 0.2);
+    color: #d8f5fb;
+    box-shadow: 0 0 16px rgba(91, 188, 232, 0.4);
+}
+
+/* ========== レスポンシブ ========== */
+
+/* PC (1025px以上) */
+@media (min-width: 1025px) {
+    .mc-body      { max-width: 600px; }
+    .mc-title     { font-size: 44px; }
+    .mc-stat-value{ font-size: 52px; }
+}
+
+/* タブレット (768px〜1024px) */
+@media (max-width: 1024px) and (min-width: 768px) {
+    .mc-body      { max-width: 500px; }
+    .mc-title     { font-size: 34px; }
+    .mc-stat-value{ font-size: 42px; }
+}
+
+/* モバイル 縦向き */
+@media (orientation: portrait) and (max-width: 767px) {
+    .mc-scene     { padding: 24px 16px; }
+    .mc-body      { gap: 14px; }
+    .mc-title     { font-size: 22px; }
+    .mc-stat-value{ font-size: 30px; }
+    .mc-stat-row  { padding: 6px 12px; }
+    .mc-actions   { width: 140px; }
+    .mc-avatar-wrap   { width: 48px; height: 48px; }
+    .mc-avatar-canvas { width: 48px; height: 48px; }
+    .mc-player-card   { padding: 10px 14px; gap: 12px; }
+    .mc-player-name   { font-size: 18px; }
+}
+
+/* モバイル 横向き */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 500px) {
+    .mc-scene     { padding: 14px 24px; }
+    .mc-body      { gap: 10px; max-width: 480px; }
+    .mc-title     { font-size: 20px; }
+    .mc-stat-value{ font-size: 26px; }
+    .mc-stat-row  { padding: 4px 12px; }
+    .mc-actions   { width: 120px; }
+    .mc-avatar-wrap   { width: 40px; height: 40px; }
+    .mc-avatar-canvas { width: 40px; height: 40px; }
+    .mc-player-card   { padding: 8px 12px; gap: 10px; }
+    .mc-player-name   { font-size: 16px; }
+    .mc-player-title-text { font-size: 9px; }
+}

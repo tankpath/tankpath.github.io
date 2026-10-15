@@ -1,0 +1,103 @@
+/* ===== PWA インストール催促バナー ===== */
+
+#pwa-install-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9998; /* orientation-warning(9999) の下 */
+
+    background: rgba(19, 39, 39, 0.97);
+    border-top: 1px solid #387B94;
+    padding: 0;
+    transform: translateY(100%);
+    transition: transform 0.35s ease;
+    backdrop-filter: blur(8px);
+}
+
+#pwa-install-banner.pwa-banner--visible {
+    transform: translateY(0);
+}
+
+.pwa-banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pwa-banner-text {
+    margin: 0;
+    color: #5BBCE8;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: 'Share Tech Mono', monospace;
+    flex: 1;
+}
+
+.pwa-banner-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.pwa-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    min-height: 40px;
+}
+
+.pwa-btn--install {
+    background: #387B94;
+    color: #D8F5FB;
+    border: 1px solid #5BBCE8;
+}
+
+.pwa-btn--install:hover,
+.pwa-btn--install:active {
+    background: #5BBCE8;
+    color: #132727;
+    box-shadow: 0 0 10px #5BBCE8;
+}
+
+.pwa-btn--dismiss {
+    background: transparent;
+    color: #387B94;
+    border: 1px solid #387B94;
+}
+
+.pwa-btn--dismiss:hover,
+.pwa-btn--dismiss:active {
+    background: rgba(56, 123, 148, 0.2);
+}
+
+/* 縦画面：テキストを短くして縦に並べる */
+@media (orientation: portrait) {
+    .pwa-banner-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .pwa-banner-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+    .pwa-banner-text {
+        font-size: 11px;
+    }
+    .pwa-btn {
+        font-size: 11px;
+        padding: 7px 12px;
+    }
+}

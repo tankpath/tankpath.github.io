@@ -1,0 +1,15 @@
+/* フェードアウト用オーバーレイ */
+.fade-out-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: #0d1f1f; /* 工場の背景に近い暗い色 */
+    opacity: 0;
+    pointer-events: none; /* フェード中も下の要素を触らせない場合は 'all' に変更 */
+    z-index: 9999;        /* 常に最前面 */
+    transition: opacity 1.0s ease-in-out;
+}
+
+/* アニメーション実行時の状態 */
+.fade-out-overlay.is-active {
+    opacity: 1;
+}

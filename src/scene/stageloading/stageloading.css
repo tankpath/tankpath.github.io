@@ -1,0 +1,605 @@
+/* ========== StageLoading Scene ========== */
+.stageloading-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #0e2020;
+    -webkit-user-select: none;
+    user-select: none;
+    background-image:
+        linear-gradient(rgba(56, 123, 148, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 123, 148, 0.12) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: #d8f5fb;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    padding: 48px 56px;
+}
+
+/* スキャンライン オーバーレイ */
+.stageloading-scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.12) 3px,
+        rgba(0, 0, 0, 0.12) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 四隅ブラケット装飾 */
+.sl-corner {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    z-index: 2;
+}
+.sl-corner--tl { top: 20px; left: 20px;
+    border-top: 2px solid #5ab0cc; border-left: 2px solid #5ab0cc; }
+.sl-corner--tr { top: 20px; right: 20px;
+    border-top: 2px solid #5ab0cc; border-right: 2px solid #5ab0cc; }
+.sl-corner--bl { bottom: 20px; left: 20px;
+    border-bottom: 2px solid #5ab0cc; border-left: 2px solid #5ab0cc; }
+.sl-corner--br { bottom: 20px; right: 20px;
+    border-bottom: 2px solid #5ab0cc; border-right: 2px solid #5ab0cc; }
+
+/* ========== メインエリア (PC: 縦積み、スマホ横: 左右分割) ========== */
+.sl-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* ========== 上部: ヘッダー + ステータス ========== */
+.sl-top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+/* ヘッダー */
+.sl-header {
+    text-align: center;
+}
+.sl-header-label {
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: #7ab8cc;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+}
+.sl-header-title {
+    font-size: 28px;
+    letter-spacing: 0.35em;
+    color: #a0dff0;
+    text-shadow:
+        0 0 16px rgba(91, 188, 232, 0.9),
+        0 0 40px rgba(91, 188, 232, 0.4);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* 区切り線 */
+.sl-divider {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #5ab0cc;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+}
+.sl-divider::before,
+.sl-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #5ab0cc, transparent);
+}
+
+/* ステータス行 (STAGE | sep | REMAINING) */
+.sl-stats-row {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: 640px;
+    border: 1px solid #5ab0cc;
+    background: rgba(56, 123, 148, 0.12);
+    position: relative;
+}
+.sl-stats-row::before {
+    content: 'MISSION DATA';
+    position: absolute;
+    top: -9px;
+    left: 20px;
+    background: #0e2020;
+    padding: 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: #5ab0cc;
+}
+
+.sl-stat-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 24px;
+    gap: 0;
+}
+
+/* ラベルをトップ固定 */
+.sl-stat-label {
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    color: #8ecfe0;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+/* ラベル下の残り領域でアイコン+数字を中央配置 */
+.sl-stat-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sl-stat-sep {
+    width: 1px;
+    background: rgba(90, 176, 204, 0.4);
+    margin: 20px 0;
+}
+
+.sl-stat-value-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sl-stat-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 8px rgba(91, 188, 232, 0.7));
+}
+
+.sl-stat-icon--stage {
+    width: 110px;
+    height: 110px;
+}
+
+.sl-stat-icon-x {
+    font-size: 80px;
+    line-height: 1;
+    color: #5BBCE8;
+    opacity: 0.6;
+}
+
+.sl-stat-value {
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    color: #5BBCE8;
+    text-shadow:
+        0 0 16px rgba(91, 188, 232, 0.9),
+        0 0 40px rgba(91, 188, 232, 0.4);
+}
+
+/* Race / Battle: プレイヤー一覧行 */
+.sl-stats-row--players {
+    max-width: 100%;
+}
+
+/* プレイヤー数が多い場合に値フォントを縮小 */
+.sl-stat-value--sm {
+    font-size: 48px;
+}
+
+/* 数値の下に表示するラベル (DEFEAT / WINS) */
+.sl-stat-sublabel {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: #7ab8cc;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+/* ========== 中央: 操作説明 ========== */
+.sl-controls-area {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+    min-height: 0;
+}
+
+.sl-controls-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid #5ab0cc;
+    background: rgba(56, 123, 148, 0.12);
+    position: relative;
+    padding: 24px 20px;
+}
+
+.sl-controls-panel::before {
+    content: 'CONTROLS';
+    position: absolute;
+    top: -9px;
+    left: 20px;
+    background: #0e2020;
+    padding: 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: #5ab0cc;
+}
+
+.sl-controls--pc {
+    display: flex;
+}
+
+.sl-controls--touch {
+    display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .sl-controls--pc {
+        display: none;
+    }
+    .sl-controls--touch {
+        display: flex;
+    }
+}
+
+.sl-control-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.sl-ctrl-sep {
+    width: 1px;
+    align-self: stretch;
+    background: rgba(90, 176, 204, 0.4);
+    margin: 0 20px;
+    min-height: 60px;
+}
+
+.sl-ctrl-svg {
+    display: block;
+    height: 64px;
+    width: auto;
+    filter: drop-shadow(0 0 6px rgba(91, 188, 232, 0.4));
+}
+
+.sl-control-action {
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    color: #a0dff0;
+    text-transform: uppercase;
+    margin-top: 4px;
+    text-shadow: 0 0 8px rgba(91, 188, 232, 0.4);
+}
+
+.sl-control-key {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #7ab8cc;
+    text-transform: uppercase;
+}
+
+/* ========== 下部: TOUCH TO START ========== */
+.interaction-area {
+    position: relative;
+    z-index: 2;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 400px;
+}
+
+.footer-msg {
+    margin: 0;
+    font-size: 16px;
+    letter-spacing: 0.45em;
+    color: #7ab8cc;
+    text-shadow: 0 0 8px rgba(118, 200, 222, 0.5);
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+@keyframes sl-footer-switch {
+    0%   { transform: rotateX(0deg); }
+    50%  { transform: rotateX(90deg); }
+    100% { transform: rotateX(0deg); }
+}
+
+.sl-footer--switching {
+    animation: sl-footer-switch 0.6s ease-in-out forwards;
+}
+
+.sl-footer--ready {
+    color: #a0dff0;
+    text-shadow: 0 0 14px rgba(118, 200, 222, 0.9);
+}
+
+/* ブリンクアニメーション */
+@keyframes blink {
+    0%, 100% { opacity: 0; }
+    50%       { opacity: 1; }
+}
+
+.is-ready .animate-blink {
+    animation: blink 1.4s ease-in-out infinite;
+}
+
+.stageloading-scene.is-ready {
+    cursor: pointer;
+}
+
+/* デジタル時計風 カウントアニメーション */
+@keyframes sl-count-tick-up {
+    0%   { color: #4cff88; text-shadow: 0 0 30px rgba(76, 255, 136, 1), 0 0 60px rgba(76, 255, 136, 0.6); }
+    50%  { color: #a0ffcc; text-shadow: 0 0 15px rgba(76, 255, 136, 0.5); }
+    100% { color: #5BBCE8; text-shadow: 0 0 16px rgba(91, 188, 232, 0.9), 0 0 40px rgba(91, 188, 232, 0.4); }
+}
+
+@keyframes sl-count-tick-down {
+    0%   { color: #ff4c4c; text-shadow: 0 0 30px rgba(255, 76, 76, 1), 0 0 60px rgba(255, 76, 76, 0.6); }
+    50%  { color: #ffaaaa; text-shadow: 0 0 15px rgba(255, 76, 76, 0.5); }
+    100% { color: #5BBCE8; text-shadow: 0 0 16px rgba(91, 188, 232, 0.9), 0 0 40px rgba(91, 188, 232, 0.4); }
+}
+
+.sl-count-tick-up {
+    animation: sl-count-tick-up 0.6s ease-out forwards;
+}
+
+.sl-count-tick-down {
+    animation: sl-count-tick-down 0.6s ease-out forwards;
+}
+
+/* ========== スマホ横画面 ========== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .stageloading-scene {
+        padding: 16px 42px;
+        padding-left: max(48px, env(safe-area-inset-left) + 24px);
+    }
+
+    /* メインエリアを左右分割 */
+    .sl-main {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        min-height: 0;
+    }
+
+    /* 左: ヘッダー + MISSION DATA */
+    .sl-top {
+        flex: 1;
+        align-items: flex-start;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .sl-header-label {
+        display: none;
+    }
+
+    .sl-header-title {
+        font-size: 14px;
+        letter-spacing: 0.25em;
+    }
+
+    /* stat ブロックを縦積みに */
+    .sl-stats-row {
+        flex-direction: column;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .sl-stat-sep {
+        width: auto;
+        height: 1px;
+        margin: 0 16px;
+    }
+
+    .sl-stat-block {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px 14px;
+        gap: 12px;
+    }
+
+    .sl-stat-body {
+        flex: none;
+    }
+
+    .sl-stat-label {
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        width: 80px;
+        flex-shrink: 0;
+    }
+
+    .sl-stat-value-row {
+        gap: 6px;
+    }
+
+    .sl-stat-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .sl-stat-icon--stage {
+        width: 38px;
+        height: 38px;
+    }
+
+    .sl-stat-icon-x {
+        font-size: 32px;
+    }
+
+    .sl-stat-value {
+        font-size: 36px;
+    }
+
+    /* 右: 操作説明 */
+    .sl-controls-area {
+        flex: none;
+        padding: 0;
+    }
+
+    .sl-controls-panel {
+        max-width: 260px;
+        padding: 14px 12px;
+    }
+
+    .sl-ctrl-svg {
+        height: 44px;
+    }
+
+    .sl-control-action {
+        font-size: 10px;
+        letter-spacing: 0.25em;
+    }
+
+    .sl-control-key {
+        font-size: 9px;
+    }
+
+    .sl-ctrl-sep {
+        margin: 0 10px;
+    }
+
+    .interaction-area {
+        height: 28px;
+    }
+
+    .footer-msg {
+        font-size: 11px;
+        letter-spacing: 0.3em;
+    }
+}
+
+/* ========== スマホ縦画面 ========== */
+@media (max-width: 767px) and (orientation: portrait) {
+    .stageloading-scene {
+        padding: max(40px, calc(env(safe-area-inset-top) + 16px)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+
+    .sl-corner--tl { top: 42px; left: 20px; }
+    .sl-corner--tr { top: 42px; right: 20px; }
+    .sl-corner--bl { bottom: 32px; left: 20px; }
+    .sl-corner--br { bottom: 32px; right: 20px; }
+
+    .sl-header-label {
+        font-size: 10px;
+        letter-spacing: 0.3em;
+    }
+
+    .sl-header-title {
+        font-size: 18px;
+        letter-spacing: 0.25em;
+    }
+
+    .sl-stats-row {
+        max-width: 100%;
+        top: 25px;
+    }
+
+    .sl-stat-block {
+        padding: 14px 8px 18px;
+    }
+
+    .sl-stat-label {
+        font-size: 10px;
+        letter-spacing: 0.3em;
+    }
+
+    .sl-stat-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .sl-stat-icon--stage {
+        width: 60px;
+        height: 60px;
+    }
+
+    .sl-stat-icon-x {
+        font-size: 48px;
+    }
+
+    .sl-stat-value {
+        font-size: 48px;
+    }
+
+    .sl-stat-value--sm {
+        font-size: 32px;
+    }
+
+    .interaction-area {
+        height: 48px;
+        margin-top: 50px;
+    }
+
+    .footer-msg {
+        font-size: 12px;
+        letter-spacing: 0.35em;
+        margin-top: -25px;
+    }
+
+    .sl-controls-panel {
+        max-width: 100%;
+        padding: 16px 10px;
+    }
+
+    .sl-ctrl-sep {
+        margin: 0 12px;
+        min-height: 48px;
+    }
+}
+
+/* スキャン光帯アニメーション */
+@keyframes scan-sweep {
+    0%   { transform: translateY(-100%); opacity: 0.6; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+.sl-scanbeam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, rgba(91, 188, 232, 0.1), transparent);
+    pointer-events: none;
+    z-index: 1;
+    animation: scan-sweep 4s linear infinite;
+}

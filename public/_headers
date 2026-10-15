@@ -1,0 +1,7 @@
+/assets/se/*
+  Accept-Ranges: bytes
+  Content-Type: audio/wav
+
+/assets/bgm/*
+  Accept-Ranges: bytes
+  Content-Type: audio/mpeg

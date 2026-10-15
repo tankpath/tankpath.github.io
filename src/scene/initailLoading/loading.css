@@ -1,0 +1,166 @@
+/* ========== Initial Loading Scene ========== */
+.loading-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #132727;
+    background-image:
+        linear-gradient(rgba(56, 123, 148, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 123, 148, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    overflow: hidden;
+    color: #76c8de;
+    box-sizing: border-box;
+}
+
+/* スキャンライン */
+.loading-scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0, 0, 0, 0.18) 3px, rgba(0, 0, 0, 0.18) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 四隅ブラケット */
+.lc-corner {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    z-index: 3;
+}
+.lc-corner--tl { top: 18px; left: 18px;
+    border-top: 2px solid #387B94; border-left: 2px solid #387B94; }
+.lc-corner--tr { top: 18px; right: 18px;
+    border-top: 2px solid #387B94; border-right: 2px solid #387B94; }
+.lc-corner--bl { bottom: 18px; left: 18px;
+    border-bottom: 2px solid #387B94; border-left: 2px solid #387B94; }
+.lc-corner--br { bottom: 18px; right: 18px;
+    border-bottom: 2px solid #387B94; border-right: 2px solid #387B94; }
+
+/* スキャン光帯 */
+@keyframes loading-scan {
+    0%   { transform: translateY(-100%); opacity: 0.5; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+.lc-scanbeam {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(91, 188, 232, 0.07), transparent);
+    pointer-events: none;
+    z-index: 1;
+    animation: loading-scan 5s linear infinite;
+}
+
+/* 背景のバイナリコード用キャンバス */
+#binary-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+/* 前面のコンテンツ */
+.loading-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* OS起動ログ */
+.boot-log {
+    text-align: left;
+    height: 150px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-shadow: 0 0 5px #76c8de;
+}
+
+.log-line {
+    margin: 2px 0;
+    opacity: 0;
+    animation: flicker 0.1s steps(2, start) forwards;
+    color: #76c8de;
+}
+
+@keyframes flicker {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.log-line.highlight {
+    color: #d8f5fb;
+    text-shadow: 0 0 10px #5bbce8;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* プログレスバー */
+.progress-container {
+    width: 100%;
+    height: 4px;
+    background: rgba(56, 123, 148, 0.2);
+    border: 1px solid #516f6f;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #5bbce8;
+    box-shadow: 0 0 15px #76c8de, 0 0 5px #d8f5fb;
+    transition: width 0.2s ease-out;
+    border-radius: 2px;
+}
+
+#loading-text {
+    margin-top: 15px;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: #387b94;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50%       { opacity: 1; color: #76c8de; }
+}
+
+/* タップヒント */
+@keyframes tap-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+.loading-tap-hint {
+    display: none;
+    margin-top: 24px;
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    color: #76c8de;
+    text-shadow: 0 0 8px #5bbce8;
+    animation: tap-blink 0.9s step-start infinite;
+    cursor: pointer;
+    user-select: none;
+}
+.loading-tap-hint--visible {
+    display: block;
+}

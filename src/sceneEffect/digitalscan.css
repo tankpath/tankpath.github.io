@@ -1,0 +1,50 @@
+
+
+/* スキャン中のオーバーレイ本体 */
+.scan-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; /* クリックを邪魔しない */
+    z-index: 10001; /* 縦警告よりさらに上 */
+    overflow: hidden;
+}
+
+/* 走る光のライン */
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: #5BBCE8;
+    box-shadow: 0 0 20px #76c8de, 0 0 40px #5BBCE8;
+    opacity: 0;
+    top: -5%;
+}
+
+/* スキャンアニメーション */
+.scan-active .scan-line {
+    animation: scan-move 0.8s ease-in-out forwards;
+}
+
+/* 画面のフラッシュ効果 */
+.scan-active::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #d8f5fb;
+    opacity: 0;
+    animation: scan-flash 0.8s ease-in-out forwards;
+}
+
+@keyframes scan-move {
+    0% { top: -5%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 105%; opacity: 0; }
+}
+
+@keyframes scan-flash {
+    0% { opacity: 0; }
+    50% { opacity: 0.2; }
+    100% { opacity: 0; }
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ / Contact - TankPath</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            background: #fafafa;
+        }
+        header {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 24px 32px;
+            text-align: center;
+            position: relative;
+        }
+        header h1 {
+            font-size: 1.6rem;
+            letter-spacing: 0.05em;
+        }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 7px 14px;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.28);
+        }
+        .columns {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .col {
+            flex: 1;
+            padding: 40px 36px;
+        }
+        .col-ja {
+            background: #fff;
+            border-right: 1px solid #e0e0e0;
+        }
+        .col-en {
+            background: #f7f9fb;
+        }
+        .col h2 {
+            font-size: 1.25rem;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1a1a2e;
+            color: #1a1a2e;
+        }
+        .section {
+            margin-bottom: 28px;
+        }
+        .section p {
+            color: #444;
+            margin-bottom: 8px;
+        }
+        .section ul {
+            padding-left: 1.4em;
+            color: #444;
+        }
+        .section ul li {
+            margin-bottom: 4px;
+        }
+        .form-section {
+            background: #fff;
+            padding: 40px 36px;
+            text-align: center;
+        }
+        .form-section iframe {
+            width: 100%;
+            max-width: 640px;
+            height: 894px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #888;
+            border-top: 1px solid #e0e0e0;
+            background: #fff;
+        }
+        @media (max-width: 768px) {
+            .columns {
+                flex-direction: column;
+            }
+            .col-ja {
+                border-right: none;
+                border-bottom: 2px solid #1a1a2e;
+            }
+            .form-section iframe {
+                height: 760px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="../index.html" class="back-btn">← ホーム / Home</a>
+    <h1>お問い合わせ &nbsp;/&nbsp; Contact</h1>
+</header>
+
+<div class="columns">
+
+    <!-- 日本語 -->
+    <div class="col col-ja">
+        <h2>お問い合わせ</h2>
+
+        <div class="section">
+            <p>TankPathへのご質問・ご意見・不具合のご報告などは、以下のフォームよりお気軽にお送りください。</p>
+        </div>
+
+        <div class="section">
+            <p><strong>対応について</strong></p>
+            <p>お問い合わせ内容を確認次第、可能な範囲でご返信いたします。内容によってはお時間をいただく場合や、返答が困難な場合もございますのであらかじめご了承ください。</p>
+        </div>
+
+        <div class="section">
+            <p><strong>お問い合わせいただける内容の例</strong></p>
+            <ul>
+                <li>サイトの使い方・機能に関するご質問</li>
+                <li>掲載内容の誤りのご指摘</li>
+                <li>不具合・表示崩れのご報告</li>
+                <li>その他ご意見・ご要望</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- English -->
+    <div class="col col-en">
+        <h2>Contact Us</h2>
+
+        <div class="section">
+            <p>If you have any questions, feedback, or bug reports about TankPath, please feel free to use the form below.</p>
+        </div>
+
+        <div class="section">
+            <p><strong>Response Policy</strong></p>
+            <p>We will do our best to respond to your inquiry after reviewing it. Please note that some inquiries may take time to address, and we may not be able to reply to all messages. We appreciate your understanding.</p>
+        </div>
+
+        <div class="section">
+            <p><strong>Examples of inquiries we accept</strong></p>
+            <ul>
+                <li>Questions about site usage or features</li>
+                <li>Reports of incorrect or outdated information</li>
+                <li>Bug reports or display issues</li>
+                <li>General feedback and suggestions</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<!-- フォーム（1つ・中央配置） -->
+<div class="form-section">
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeQBxOuFt0-3UETTHeSjWEmJZWBoi6ep3rikcJTuZR-sxA1kA/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます… / Loading…</iframe>
+</div>
+
+<footer>
+    &copy; 2026 TankPath. All rights reserved.
+</footer>
+
+</body>
+</html>

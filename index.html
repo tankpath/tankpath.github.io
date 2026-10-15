@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/assets/icon/Icon_Icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon/Icon_Icon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://fundingchoicesmessages.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googlesyndication.com https://*.doubleclick.net https://adservice.google.com https://adservice.google.co.jp; connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://adservice.google.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com; worker-src 'self' blob:;">
+    <meta name="theme-color" content="#132727" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="description" content="TankPath - 戦略タンクバトルゲーム。壁を反射する弾や地雷を駆使して敵タンクを撃破しよう。ソロ・チーム・レース・バトルの4モードを搭載。A strategic tank battle game — deflect bullets off walls, plant mines, and destroy enemy tanks across 100 stages." />
+    <meta name="keywords" content="TankPath, タンクゲーム, tank game, ブラウザゲーム, browser game, strategy, アクション" />
+    <meta name="google-adsense-account" content="ca-pub-9820917616078954">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820917616078954" crossorigin="anonymous"></script>
+    <title>TankPath</title>
+  </head>
+  <body>
+    <div id="orientation-warning" style="display: none;">
+      <div class="warning-content">
+        <div class="icon-rotate"></div>
+        <p class="warning-text" id="orientation-warning-text">LANDSCAPE MODE RECOMMENDED</p>
+        <p class="warning-sub" id="orientation-warning-sub">横画面での表示を推奨しています</p>
+        <button id="close-warning">PROCEED ANYWAY</button>
+      </div>
+    </div>
+
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+
+    <noscript>
+      <style>
+        .ns-wrap { font-family: sans-serif; max-width: 900px; margin: 0 auto; padding: 32px 20px; color: #222; line-height: 1.8; }
+        .ns-wrap h1 { font-size: 2rem; margin-bottom: 8px; }
+        .ns-wrap h2 { font-size: 1.3rem; margin: 32px 0 8px; border-bottom: 2px solid #1a1a2e; padding-bottom: 4px; }
+        .ns-wrap h3 { font-size: 1.05rem; margin: 20px 0 6px; }
+        .ns-wrap p  { margin-bottom: 10px; }
+        .ns-wrap ul { padding-left: 1.4em; margin-bottom: 10px; }
+        .ns-wrap a  { color: #1a1a2e; }
+        .ns-nav { display: flex; gap: 16px; margin: 16px 0 32px; flex-wrap: wrap; }
+        .ns-nav a { padding: 6px 14px; background: #1a1a2e; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.9rem; }
+      </style>
+      <div class="ns-wrap">
+        <h1>TankPath</h1>
+        <p>TankPath（タンクパス）は、壁への弾の反射・地雷の設置・戦略的な移動を駆使して敵タンクを撃破するブラウザ戦略アクションゲームです。全100ステージのソロミッション、仲間と協力するチームミッション、スコアを競うレースモード、プレイヤー同士が戦うバトルモードの4つのモードを搭載しています。PCのマウス・キーボード、スマートフォンのタップ操作の両方に対応しており、誰でも気軽に遊べます。</p>
+        <p>TankPath is a browser-based strategic action game where you deflect bullets off walls, plant mines, and outmaneuver enemy tanks. With 100 solo stages, cooperative team play, competitive race mode, and player-vs-player battle mode, there is something for every type of player. Fully playable on PC with mouse and keyboard, or on smartphones via touch controls.</p>
+
+        <div class="ns-nav">
+          <a href="/gamerule.html">ゲームルール・操作説明 / Game Rules</a>
+          <a href="/privacy.html">プライバシーポリシー / Privacy Policy</a>
+          <a href="/contact.html">お問い合わせ / Contact</a>
+        </div>
+
+        <h2>操作方法 / Controls</h2>
+        <h3>移動 / Movement</h3>
+        <p>キーボードの W・A・S・D キーでタンクを移動できます。スマートフォンでは画面上の十字ボタンをタップしてください。Use W/A/S/D on keyboard to move your tank. On smartphones, use the on-screen D-Pad.</p>
+        <h3>照準・発射 / Aiming &amp; Shooting</h3>
+        <p>マウスを動かして照準を合わせ、左クリックで発射します。スマートフォンでは攻撃したい方向をタップしてください。Move the mouse to aim the turret and left-click to fire. On smartphones, tap the direction you want to shoot.</p>
+        <h3>地雷設置 / Mine Placement</h3>
+        <p>右クリックでタンクの足もとに地雷を設置します。スマートフォンでは地雷ボタン（X ボタン）をタップしてください。Right-click to place a mine under your tank. On smartphones, tap the mine button.</p>
+
+        <h2>ゲームモード / Game Modes</h2>
+        <h3>ソロミッション / Solo Mission</h3>
+        <p>全100ステージを一人でクリアするメインモードです。敵タンクをすべて倒すとステージクリア。自機が破壊されると敗北となります。挑戦回数は初期値5回で、5の倍数ステージをクリアするたびに1回増加します。敗北のたびに1回減少し、0になるとはじめからやり直しです。The main single-player campaign with 100 stages. Destroy all enemy tanks to clear each stage. You start with 5 lives; earn one extra life every time you clear a stage that is a multiple of 5.</p>
+        <h3>チームモード / Team Mode</h3>
+        <p>複数のプレイヤーとソロミッションのステージを協力してクリアするモードです。チーム全員が全滅すると挑戦回数が1減ります。Take on Solo Mission stages cooperatively with friends. The try count decreases by 1 if the entire team is wiped out.</p>
+        <h3>レースモード / Race Mode</h3>
+        <p>選択したステージで制限時間内に最も多くの敵タンクを撃破したプレイヤーの勝利です。タンクは自由に選択できます。Compete to destroy the most enemy tanks on a chosen stage. The player with the highest kill count wins. Tanks are freely selectable.</p>
+        <h3>バトルモード / Battle Mode</h3>
+        <p>敵AIなしのプレイヤー同士の対戦モードです。最後の1人になったプレイヤーが勝者となります。タンクは自由に選択できます。Pure player-vs-player combat with no AI enemies. The last player standing wins. Tanks are freely selectable.</p>
+
+        <h2>弾の種類 / Shell Types</h2>
+        <ul>
+          <li><strong>通常弾 / Standard Shell</strong>：赤いビーム。壁に1回だけ反射する。耐久値1。Red beam. Reflects off walls once. Durability: 1.</li>
+          <li><strong>強化弾 / Enhanced Shell</strong>：緑のビーム。壁に何度でも反射し続ける。やや速い。耐久値1。Green beam. Reflects off walls multiple times. Slightly faster. Durability: 1.</li>
+          <li><strong>分裂弾 / Split Shell</strong>：黄色いビーム。壁への反射後に複数の弾に分裂する。速度は遅い。耐久値2。Yellow beam. Splits into multiple shells after bouncing. Slow speed. Durability: 2.</li>
+          <li><strong>徹甲弾 / Armor-Piercing Shell</strong>：青いビーム。特定の壁を貫通する。反射なし。速い。耐久値4。Blue beam. Pierces through certain walls. No reflection. Fast. Durability: 4.</li>
+        </ul>
+        <p>弾同士がぶつかると互いの耐久値を削り合い、0になった弾は消えます。When two shells collide, each loses durability equal to the other's value; a shell reaching 0 is destroyed.</p>
+
+        <h2>地雷の種類 / Mine Types</h2>
+        <ul>
+          <li><strong>広域地雷 / Area Mine</strong>：近くのタンクまたは弾に反応して爆発します。遠くから弾で起爆させることも可能です。Detonates when any nearby tank or shell enters its range. Can be triggered remotely by shooting it.</li>
+          <li><strong>選択地雷 / Selective Mine</strong>：近くのタンクにのみ反応します。弾では起爆しません。敵の通り道に仕掛けるのが効果的です。Only reacts to tanks. Shells will not trigger it. Best placed on enemy patrol paths.</li>
+        </ul>
+
+        <p style="margin-top:32px; font-size:0.9rem; color:#666;">
+          &copy; 2026 TankPath &nbsp;|&nbsp;
+          <a href="/privacy.html">プライバシーポリシー</a> &nbsp;|&nbsp;
+          <a href="/contact.html">お問い合わせ</a> &nbsp;|&nbsp;
+          <a href="/gamerule.html">ゲームルール</a>
+        </p>
+      </div>
+    </noscript>
+  </body>
+</html>

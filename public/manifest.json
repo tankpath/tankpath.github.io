@@ -1,0 +1,19 @@
+{
+  "name": "TANK PATH",
+  "short_name": "TANKPATH",
+  "description": "Armored strategy tank battle game",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#000000",
+  "theme_color": "#132727",
+  "icons": [
+    {
+      "src": "/assets/icon/Icon_Icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
